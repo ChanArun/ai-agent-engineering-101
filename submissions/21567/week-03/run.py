@@ -16,11 +16,13 @@ EXEC_HEADER = 'run,condition,success,failed,invalid_bids,llm_calls'.split(',')
 
 
 class Chat:
-    def __init__(self, model):
+    def __init__(self, model, provider=None):
         self.model = model
         self.calls = 0
         self.base = os.environ.get('OPENAI_BASE_URL', 'https://api.openai.com/v1').rstrip('/')
-        self.key = os.environ['OPENAI_API_KEY']
+        self.key = os.environ['OPENROUTER_API_KEY'] if provider == 'openrouter' else os.environ['OPENAI_API_KEY']
+        if provider == 'openrouter':
+            self.base = 'https://openrouter.ai/api/v1'
         if not self.base.startswith('https://'):
             raise ValueError('HTTPS endpoint required')
 
@@ -46,6 +48,7 @@ def append(path, header, row):
 
 def main():
     parser = argparse.ArgumentParser()
+    parser.add_argument('--provider', choices=['openrouter'], help='Use OPENROUTER_API_KEY and the OpenRouter endpoint')
     parser.add_argument('--condition', choices=CONDITIONS, default='baseline')
     parser.add_argument('--model', default=os.environ.get('AGENT_MODEL', 'nvidia/nemotron-3.5-lightning:free'))
     parser.add_argument('--limit', type=int)
@@ -64,7 +67,7 @@ def main():
             log.flush()
         chat = None
         try:
-            chat = Chat(args.model)
+            chat = Chat(args.model, provider=args.provider) if args.provider else Chat(args.model)
             emit('setup', run=run_id, condition=args.condition, model=chat.model, provider=chat.base, temperature=0)
             tasks = json.loads((ROOT / 'tasks.json').read_text())
             if args.limit is not None:

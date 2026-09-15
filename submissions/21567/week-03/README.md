@@ -33,7 +33,7 @@ API 키는 환경 변수만 사용한다. OPENAI_BASE_URL은 해당 키의 제�
 AGENT_MODEL은 그 제공자가 지원하는 모델이어야 한다. 키를 코드나 로그에 넣지 않는다.
 
 ```bash
-python3 run.py --smoke --limit 1 --model "$AGENT_MODEL"
+python3 run.py --provider openrouter --smoke --limit 1 --model "$AGENT_MODEL"
 ```
 
 작업 하나의 로그에서 announcement 3개 → bid 3개 → award 1개 → tool → answer → evaluation을 확인한다.
@@ -47,7 +47,7 @@ python3 run.py --smoke --limit 1 --model "$AGENT_MODEL"
 ```bash
 for condition in baseline homogeneous overconfident; do
   for attempt in 1 2 3; do
-    python3 run.py --condition "$condition" --model "$AGENT_MODEL"
+    python3 run.py --provider openrouter --condition "$condition" --model "$AGENT_MODEL"
   done
 done
 ```
@@ -58,7 +58,7 @@ REPORT.md에는 실제 결과가 생긴 뒤 표와 로그 근거를 추가한다
 
 ## 현재 검증 상태
 
-- 자동 테스트 12개 통과: 도구, 입찰 검증, 동점, 불참, 잘못된 응답, 실제 수행 루프의 관측 연결,
+- 자동 테스트 13개 통과: 도구, 입찰 검증, 동점, 불참, 잘못된 응답, 실제 수행 루프의 관측 연결,
   최대 반복, 도구 오류 회복, 조건 통제, 배정·수행의 독립 평가, CSV 누적 보존, 인증 실패 기록.
 - 테스트의 LLM 응답은 Scripted 대역이다. 실제 LLM의 행동 또는 조건별 성능을 입증하지 않는다.
 - 실제 연결 시도: 현재 환경의 서버가 HTTP 401을 반환했다. smoke/에 실패 원본을 보존했다.
@@ -71,3 +71,5 @@ REPORT.md에는 실제 결과가 생긴 뒤 표와 로그 근거를 추가한다
 제공자 인증 설정이 복구되면 단일 작업 연결을 먼저 재실행한다. tool 관측과 정답을 확인한 후
 세 조건 9회 실험을 실행한다. 결과·메시지 수를 원본 로그와 대조하고 보고서를 작성한 뒤
 `python3 ../../../scripts/check_week03.py .`를 실행한다.
+
+OpenRouter는 `--provider openrouter`로 선택한다. 이때 `OPENROUTER_API_KEY`를 사용하고 다른 OPENAI_BASE_URL 설정은 무시한다. 현재 환경의 OpenRouter 키로 직접 재시도했으나 인증 API가 HTTP 401, `User not found.`를 반환했다. 모델 호출 전에 인증 복구가 필요하다. 키를 대화나 저장소에 붙여넣지 않고 실행 환경에서 설정한다.

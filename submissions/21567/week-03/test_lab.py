@@ -107,6 +107,13 @@ class LabTests(unittest.TestCase):
         self.assertIn('Always participate',prompts['overconfident'][0])
 
 class RunnerTests(unittest.TestCase):
+    def test_openrouter_uses_matching_key_and_endpoint(self):
+        with patch.dict('os.environ', {'OPENAI_API_KEY':'proxy-placeholder', 'OPENAI_BASE_URL':'https://example.invalid/v1', 'OPENROUTER_API_KEY':'router-placeholder'}):
+            chat = runner.Chat('test', provider='openrouter')
+            self.assertEqual(chat.base, 'https://openrouter.ai/api/v1')
+            self.assertEqual(chat.key, 'router-placeholder')
+
+
     def test_csv_append_preserves_prior_rows(self):
         with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as folder:
             path = Path(folder) / 'results.csv'
