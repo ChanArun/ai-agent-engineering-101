@@ -271,7 +271,7 @@ footer .o{color:var(--muted)}
       <h1 class="title">고전 MAS 1: Contract Net
         <span class="en">Classical MAS 1: Contract Net</span>
       </h1>
-      <p class="lede">Contract Net은 공고, 입찰, 낙찰로 작업을 배정합니다. LLM이 제시한 확신도를 입찰에 사용하고, 배정 정확도와 메시지 수를 측정합니다.</p>
+      <p class="lede">Contract Net은 공고, 입찰, 낙찰로 작업을 배정한다. LLM이 제시한 확신도를 입찰에 사용하고, 배정 정확도와 메시지 수를 측정한다.</p>
     </div>
   </div>
 </header>
@@ -304,9 +304,9 @@ footer .o{color:var(--muted)}
 <section>
   <div class="col">
     <div class="secmark"><span class="no">A1</span><h2>Contract Net Protocol: 공고, 입찰, 낙찰</h2></div>
-    <p>계산, 글쓰기, 코드를 각각 담당하는 에이전트가 있다면 작업에 맞는 에이전트를 골라야 합니다. Reid G. Smith는 1980년 IEEE Transactions on Computers에 발표한 &ldquo;The Contract Net Protocol: High-Level Communication and Control in a Distributed Problem Solver&rdquo;에서 협상을 통한 작업 배정 절차를 제안했습니다.</p>
+    <p>계산, 글쓰기, 코드를 각각 담당하는 에이전트가 있다면 작업에 맞는 에이전트를 골라야 한다. Reid G. Smith는 1980년 IEEE Transactions on Computers에 발표한 &ldquo;The Contract Net Protocol: High-Level Communication and Control in a Distributed Problem Solver&rdquo;에서 협상을 통한 작업 배정 절차를 제안했다.</p>
 
-    <p>Smith의 논문에서는 컴퓨터 여러 대가 하나의 큰 문제를 나눠 푼다. 각 컴퓨터는 자기가 무엇을 할 수 있는지만 안다. 전체 작업을 배정하는 중앙 컴퓨터는 없습니다. Smith는 어떤 일을 어떤 컴퓨터가 맡을지 정하는 문제를 <span class="nb">connection problem</span>이라 불렀고, 답으로 협상을 택했다.</p>
+    <p>Smith의 논문에서는 컴퓨터 여러 대가 하나의 큰 문제를 나눠 푼다. 각 컴퓨터는 자기가 무엇을 할 수 있는지만 안다. 전체 작업을 배정하는 중앙 컴퓨터는 없다. Smith는 어떤 일을 어떤 컴퓨터가 맡을지 정하는 문제를 <span class="nb">connection problem</span>이라 불렀고, 답으로 협상을 택했다.</p>
 
     <div class="define">
       <p>Contract Net Protocol은 일을 나누는 절차다. 일을 가진 쪽(manager)이 공고하고, 할 수 있는 쪽(contractor)이 입찰하고, manager가 하나를 골라 낙찰한다.</p>
@@ -315,9 +315,9 @@ footer .o{color:var(--muted)}
 
     <p>중앙에서 통제하지 않고, 정보가 양쪽으로 오가며, 각자가 자기 기준으로 판단하고, 양쪽이 서로 고른다(<span class="nb">mutual selection</span>). contractor는 여러 공고 중 자기에게 맞는 것을 고르고, manager는 여러 입찰 중 하나를 고른다.</p>
 
-    <div class="pull">양쪽은 정보를 교환한 뒤 각자의 기준으로 계약 상대를 선택합니다.<span class="src">&ldquo;A contract is established by a process of local mutual selection based on a two-way transfer of information.&rdquo; R. G. Smith, &ldquo;The Contract Net Protocol&rdquo; (1980)</span></div>
+    <div class="pull">양쪽은 정보를 교환한 뒤 각자의 기준으로 계약 상대를 선택한다.<span class="src">&ldquo;A contract is established by a process of local mutual selection based on a two-way transfer of information.&rdquo; R. G. Smith, &ldquo;The Contract Net Protocol&rdquo; (1980)</span></div>
 
-    <p>일을 가진 쪽이 <strong>manager</strong>가 되어 <span class="nb">공고(task announcement)</span>를 낸다. 공고에는 작업 내용(task abstraction), 입찰 자격(eligibility specification), 입찰서 항목(bid specification), 입찰 마감(expiration time)을 적습니다. 자격이 되는 쪽이 <span class="nb">입찰(bid)</span>을 보낸다. 입찰서에는 자기가 할 수 있는 것을 적는다(node abstraction). manager가 입찰을 비교해 하나를 고르고 <span class="nb">낙찰(award)</span>한다. 낙찰받은 쪽이 <strong>contractor</strong>가 되어 일을 하고, 결과를 보고(report)한다.</p>
+    <p>일을 가진 쪽이 <strong>manager</strong>가 되어 <span class="nb">공고(task announcement)</span>를 낸다. 공고에는 작업 내용(task abstraction), 입찰 자격(eligibility specification), 입찰서 항목(bid specification), 입찰 마감(expiration time)을 적는다. 자격이 되는 쪽이 <span class="nb">입찰(bid)</span>을 보낸다. 입찰서에는 자기가 할 수 있는 것을 적는다(node abstraction). manager가 입찰을 비교해 하나를 고르고 <span class="nb">낙찰(award)</span>한다. 낙찰받은 쪽이 <strong>contractor</strong>가 되어 일을 하고, 결과를 보고(report)한다.</p>
 
     <div class="fig" id="fig1">
       <svg viewBox="0 0 680 330" role="img" aria-label="One contract net cycle: the manager broadcasts a task announcement, contractors A and B bid, C stays silent, the manager awards to A, A reports the result">
@@ -367,18 +367,18 @@ TERMINATION       [name]
 NODE-AVAILABLE    {eligibility-specification} {node-abstraction} [expiration-time]
 REQUEST | INFORMATION</pre></div>
 
-    <p>directed award는 manager가 적임자를 이미 알 때 공고 없이 바로 맡기는 메시지다. request와 information은 계약까지 갈 필요 없는 짧은 질문과 답이다. node available은 작업을 받을 수 있는 노드가 가용 상태를 알리는 메시지입니다. manager는 이 알림을 받아 해당 노드에 맞는 작업을 찾습니다. Smith는 자격 조건과 directed award를 두는 이유를 쓸데없는 메시지와 입찰 처리 부담을 줄이기 위해서라고 적었다.</p>
+    <p>directed award는 manager가 적임자를 이미 알 때 공고 없이 바로 맡기는 메시지다. request와 information은 계약까지 갈 필요 없는 짧은 질문과 답이다. node available은 작업을 받을 수 있는 노드가 가용 상태를 알리는 메시지이다. manager는 이 알림을 받아 해당 노드에 맞는 작업을 찾는다. Smith는 자격 조건과 directed award를 두는 이유를 쓸데없는 메시지와 입찰 처리 부담을 줄이기 위해서라고 적었다.</p>
 
     <p>역할은 일마다 바뀐다. 낙찰받은 contractor가 일을 더 잘게 쪼개 다시 공고하면, 그 작은 일들의 manager다. 한 컴퓨터가 어떤 일에서는 contractor이면서 다른 일에서는 manager일 수 있고, 일을 남에게 맡긴 컴퓨터는 결과를 기다리는 동안 다른 일을 받을 수 있다. Smith는 이렇게 층이 겹치는 구조가 task-sharing의 기본 모양이라고 적었다.</p>
 
-    <div class="note"><b>WHERE THE PAPER WAS TESTED</b>Smith는 이 프로토콜을 CNET이라는 시뮬레이터의 분산 센싱 시스템에서 실행했습니다. 실습의 공고 형식은 논문 Fig. 1의 signal task announcement를 그대로 따른다.</div>
+    <div class="note"><b>WHERE THE PAPER WAS TESTED</b>Smith는 이 프로토콜을 CNET이라는 시뮬레이터의 분산 센싱 시스템에서 실행했다. 실습의 공고 형식은 논문 Fig. 1의 signal task announcement를 그대로 따른다.</div>
   </div>
 </section>
 
 <section>
   <div class="col">
     <div class="secmark"><span class="no">A2</span><h2>시장 기반 태스크 할당의 발전과 한계</h2></div>
-    <p>Smith와 Randall Davis는 1983년 &ldquo;Negotiation as a Metaphor for Distributed Problem Solving&rdquo;에서 이 절차를 분산 문제 해결에 적용할 수 있는 협상 방식으로 정리했습니다.</p>
+    <p>Smith와 Randall Davis는 1983년 &ldquo;Negotiation as a Metaphor for Distributed Problem Solving&rdquo;에서 이 절차를 분산 문제 해결에 적용할 수 있는 협상 방식으로 정리했다.</p>
 
     <p>Smith는 contractor가 무엇을 근거로 입찰하고 manager가 무엇을 기준으로 고르는지는 정하지 않았다. Tuomas Sandholm이 1993년 AAAI 논문에서 이 부분을 채웠다. 입찰가는 그 일을 지금 하는 일에 더했을 때 늘어나는 비용(<span class="nb">marginal cost</span>)이고, 각자 자기 이익만 따지는 에이전트들이 이 값으로 거래한다. 2002년 FIPA는 이 절차를 Contract Net Interaction Protocol이라는 표준으로 만들었다. manager가 cfp(제안 요청)를 보내고, 참여자는 propose(제안) 또는 refuse(거절)로 답하고, manager는 accept-proposal과 reject-proposal로 결과를 알리고, 일을 맡은 쪽은 inform(완료) 또는 failure(실패)로 끝낸다. cfp에는 답장 마감이 있고, 제안은 수락되는 순간 지켜야 하는 약속이 된다. 로봇 연구에서는 Gerkey와 Matarić이 2004년 여러 로봇에게 일을 나누는 문제의 분류 체계를 세웠고, Dias 등이 2006년 시장 방식의 로봇 협업 연구를 정리했다.</p>
 
@@ -434,11 +434,11 @@ REQUEST | INFORMATION</pre></div>
       <div class="cap"><span><b>FIG. 02</b> The contract net lineage</span><span>who bids, and how the bid is made</span></div>
     </div>
 
-    <p>첫째 한계는 <strong>통신과 입찰 처리 비용</strong>입니다. 공고를 모두에게 보내면 참여자 수만큼 메시지가 나가고, 입찰이 들어오면 manager가 전부 읽고 비교해야 한다.</p>
+    <p>첫째 한계는 <strong>통신과 입찰 처리 비용</strong>이다. 공고를 모두에게 보내면 참여자 수만큼 메시지가 나가고, 입찰이 들어오면 manager가 전부 읽고 비교해야 한다.</p>
 
-    <p>둘째는 <strong>국소 최적(local optimum)</strong>이다. 계약은 그 순간 들어온 입찰만 보고 맺는다. 개별 계약에서 유리한 선택이 전체 작업의 최적 배정을 보장하지는 않습니다. Sandholm은 &ldquo;지금 상태에서 더 이득이 되는 교환이 없다&rdquo;는 상태를 k-optimal이라 부르고, 이것이 전체 최적을 보장하지는 않는다고 적었다.</p>
+    <p>둘째는 <strong>국소 최적(local optimum)</strong>이다. 계약은 그 순간 들어온 입찰만 보고 맺는다. 개별 계약에서 유리한 선택이 전체 작업의 최적 배정을 보장하지는 않는다. Sandholm은 &ldquo;지금 상태에서 더 이득이 되는 교환이 없다&rdquo;는 상태를 k-optimal이라 부르고, 이것이 전체 최적을 보장하지는 않는다고 적었다.</p>
 
-    <p>셋째는 <strong>신뢰</strong>다. 입찰은 &ldquo;내가 이 일을 할 수 있다&rdquo;는 주장이다. 이 주장이 참인지 확인하는 메시지가 절차에 없다. Smith의 시스템은 노드들이 공동의 문제를 해결하는 설정이었고, 입찰 정보는 위치와 센서 목록이었습니다. Sandholm의 self-interested agent는 프로그램으로 계산한 비용을 입찰가로 사용했습니다.</p>
+    <p>셋째는 <strong>신뢰</strong>다. 입찰은 &ldquo;내가 이 일을 할 수 있다&rdquo;는 주장이다. 이 주장이 참인지 확인하는 메시지가 절차에 없다. Smith의 시스템은 노드들이 공동의 문제를 해결하는 설정이었고, 입찰 정보는 위치와 센서 목록이었다. Sandholm의 self-interested agent는 프로그램으로 계산한 비용을 입찰가로 사용했다.</p>
 
     <div class="note"><b>WHAT FIPA ADDED</b>FIPA 표준은 cfp에 답장 마감을 넣어 manager가 무한정 기다리지 않게 했고, 마감 뒤 온 제안은 자동으로 거절된다. 신뢰 문제는 여기서도 다루지 않는다.</div>
   </div>
@@ -447,18 +447,18 @@ REQUEST | INFORMATION</pre></div>
 <section>
   <div class="col">
     <div class="secmark"><span class="no">A3</span><h2>규칙 기반 입찰과 LLM의 확신도</h2></div>
-    <p>기존 시스템에서는 <strong>정해진 정보와 계산 규칙</strong>으로 입찰을 만들었습니다. Smith의 센서 노드는 위치와 센서 목록을, Sandholm의 에이전트는 계산한 비용을 보냈습니다.</p>
+    <p>기존 시스템에서는 <strong>정해진 정보와 계산 규칙</strong>으로 입찰을 만들었다. Smith의 센서 노드는 위치와 센서 목록을, Sandholm의 에이전트는 계산한 비용을 보냈다.</p>
 
-    <p>LLM contractor는 공고와 system prompt의 능력 설명을 입력받아 <strong>입찰 여부와 확신도</strong>를 생성합니다. 이 확신도는 모델의 자기 평가입니다. Miao Xiong 등이 ICLR 2024에 낸 &ldquo;Can LLMs Express Their Uncertainty?&rdquo;는 GPT-4와 LLaMA 2를 포함한 다섯 모델에게 확신도를 말하게 하고 실제 정답률과 비교했다. 모델은 자신을 실제보다 높게 평가했고, 모델이 커져도 그 경향은 남았다.</p>
+    <p>LLM contractor는 공고와 system prompt의 능력 설명을 입력받아 <strong>입찰 여부와 확신도</strong>를 생성한다. 이 확신도는 모델의 자기 평가이다. Miao Xiong 등이 ICLR 2024에 낸 &ldquo;Can LLMs Express Their Uncertainty?&rdquo;는 GPT-4와 LLaMA 2를 포함한 다섯 모델에게 확신도를 말하게 하고 실제 정답률과 비교했다. 모델은 자신을 실제보다 높게 평가했고, 모델이 커져도 그 경향은 남았다.</p>
 
     <div class="define">
-      <p>실습에서는 LLM contractor의 확신도로 작업을 배정하고, 미리 정한 gold contractor와 일치하는지 측정합니다.</p>
-      <p class="sub">Smith의 공고, 입찰, 낙찰 절차를 사용하며 입찰 정보와 낙찰 기준을 실습에 맞게 설정합니다.</p>
+      <p>실습에서는 LLM contractor의 확신도로 작업을 배정하고, 미리 정한 gold contractor와 일치하는지 측정한다.</p>
+      <p class="sub">Smith의 공고, 입찰, 낙찰 절차를 사용하며 입찰 정보와 낙찰 기준을 실습에 맞게 설정한다.</p>
     </div>
 
-    <p><strong>바꾸는 것(독립변수)</strong>은 한 번에 하나만 바꾼다. contractor들의 능력이 서로 다른가 같은가, 한 contractor에게 과신 지시를 줬는가. <strong>고정하는 것(통제변수)</strong>은 실험 내내 그대로 둔다. 태스크 목록, 조건별 변경 부분을 제외한 공통 프롬프트, 모델, 직접 지정할 수 있는 temperature와 max_tokens를 고정합니다. 사용 도구와 버전도 기록합니다. 이 설정이 실행마다 달라지면 어떤 변경 때문에 결과가 달라졌는지 구분하기 어렵습니다. <strong>재는 것(측정변수)</strong>은 실행마다 기록한다.</p>
+    <p><strong>바꾸는 것(독립변수)</strong>은 한 번에 하나만 바꾼다. contractor들의 능력이 서로 다른가 같은가, 한 contractor에게 과신 지시를 줬는가. <strong>고정하는 것(통제변수)</strong>은 실험 내내 그대로 둔다. 태스크 목록, 조건별 변경 부분을 제외한 공통 프롬프트, 모델, 직접 지정할 수 있는 temperature와 max_tokens를 고정한다. 사용 도구와 버전도 기록한다. 이 설정이 실행마다 달라지면 어떤 변경 때문에 결과가 달라졌는지 구분하기 어렵다. <strong>재는 것(측정변수)</strong>은 실행마다 기록한다.</p>
 
-    <div class="note"><b>temperature를 지정할 수 없는 도구</b><code class="inline">claude -p</code>처럼 temperature 옵션을 제공하지 않는 도구는 설정값을 추측하지 말고 &ldquo;직접 설정 불가, 내부 값 미확인&rdquo;으로 기록합니다. <code class="inline">--system-prompt</code>에 담당 분야, 입찰 기준, 응답 형식을 명시합니다. 예를 들어 &ldquo;담당 분야에 해당하는 작업에만 입찰하고, bid·confidence·reason을 포함한 JSON 객체 하나만 출력합니다. 코드 블록이나 추가 설명은 붙이지 않습니다.&rdquo;처럼 작성합니다. 이 지시는 temperature를 바꾸거나 동일한 응답을 보장하지 않습니다. 공통 지시는 세 조건에 동일하게 적용하고, overconfident 조건에서만 과신 지시를 추가합니다. 설정마다 3번 이상 실행하고 파싱 실패도 기록합니다.</div>
+    <div class="note"><b>temperature를 지정할 수 없는 도구</b><code class="inline">claude -p</code>처럼 temperature 옵션을 제공하지 않는 도구는 설정값을 추측하지 말고 &ldquo;직접 설정 불가, 내부 값 미확인&rdquo;으로 기록한다. <code class="inline">--system-prompt</code>에 담당 분야, 입찰 기준, 응답 형식을 명시한다. 예를 들어 &ldquo;담당 분야에 해당하는 작업에만 입찰하고, bid·confidence·reason을 포함한 JSON 객체 하나만 출력한다. 코드 블록이나 추가 설명은 붙이지 않는다.&rdquo;처럼 작성한다. 이 지시는 temperature를 바꾸거나 동일한 응답을 보장하지 않는다. 공통 지시는 세 조건에 동일하게 적용하고, overconfident 조건에서만 과신 지시를 추가한다. 설정마다 3번 이상 실행하고 파싱 실패도 기록한다.</div>
 
     <div class="recorder">
       <div><span class="k">quality</span><span class="v">정답 contractor에게 간 태스크 수 ÷ 전체 태스크 수. 태스크마다 gold contractor를 실행 전에 정해 둔다.</span></div>
@@ -499,7 +499,7 @@ REQUEST | INFORMATION</pre></div>
       <div class="cap"><span><b>FIG. 03</b> Experiment structure</span><span>one independent variable per condition</span></div>
     </div>
 
-    <p>baseline을 기준으로 homogeneous와 overconfident의 배정 정확도, 메시지 수, 실패 유형을 비교합니다. homogeneous는 능력 설명을 같게 만들고, overconfident는 C에게 높은 확신도로 입찰하도록 지시합니다.</p>
+    <p>baseline을 기준으로 homogeneous와 overconfident의 배정 정확도, 메시지 수, 실패 유형을 비교한다. homogeneous는 능력 설명을 같게 만들고, overconfident는 C에게 높은 확신도로 입찰하도록 지시한다.</p>
   </div>
 </section>
 
@@ -509,9 +509,9 @@ REQUEST | INFORMATION</pre></div>
     <div class="open">
       <div class="lbl">DISCUSSION: 과신 입찰이 작업 배정에 미치는 영향</div>
       <ol>
-        <li>contractor 하나가 모든 공고에 확신도 95 이상으로 입찰한다. manager가 확신도만으로 낙찰자를 고를 때, gold contractor가 낙찰받을 조건은 무엇입니까?</li>
-        <li>과거 작업 결과, 낙찰 후 결과 검증, 평판 점수를 낙찰 기준에 추가하면 각각 어떤 정보와 처리 비용이 필요합니까?</li>
-        <li>규칙 기반 입찰의 비용 계산과 LLM 입찰의 확신도 검증에는 각각 어떤 오류가 생길 수 있습니까?</li>
+        <li>contractor 하나가 모든 공고에 확신도 95 이상으로 입찰한다. manager가 확신도만으로 낙찰자를 고를 때, gold contractor가 낙찰받을 조건은 무엇인가.</li>
+        <li>과거 작업 결과, 낙찰 후 결과 검증, 평판 점수를 낙찰 기준에 추가하면 각각 어떤 정보와 처리 비용이 필요한가.</li>
+        <li>규칙 기반 입찰의 비용 계산과 LLM 입찰의 확신도 검증에는 각각 어떤 오류가 생길 수 있는가.</li>
       </ol>
     </div>
   </div>
@@ -529,21 +529,21 @@ REQUEST | INFORMATION</pre></div>
 <section>
   <div class="col">
     <div class="secmark"><span class="no">LAB</span><h2>manager 1, contractor 3으로 공고, 입찰, 낙찰을 구현한다</h2></div>
-    <p>manager 하나와 LLM contractor 셋을 구현합니다. system prompt에 A는 계산, B는 글쓰기, C는 코드를 담당한다고 적습니다. manager는 각 태스크를 세 contractor에게 보내고, 입찰한 contractor 중 확신도가 가장 높은 쪽에 배정합니다. 전체 태스크를 한 번씩 처리하면 한 라운드입니다.</p>
+    <p>manager 하나와 LLM contractor 셋을 구현한다. system prompt에 A는 계산, B는 글쓰기, C는 코드를 담당한다고 적는다. manager는 각 태스크를 세 contractor에게 보내고, 입찰한 contractor 중 확신도가 가장 높은 쪽에 배정한다. 전체 태스크를 한 번씩 처리하면 한 라운드이다.</p>
 
-    <p>태스크마다 &ldquo;원래 누가 맡아야 하는 일인지&rdquo;(gold)를 미리 적어 둔다. 계산 문제는 A, 글쓰기는 B, 코드는 C. 라운드마다 gold와 일치한 배정 수(correct), 메시지 수(messages), 입찰이 없는 태스크 수(unassigned), gold와 다른 배정 수(misawards)를 기록합니다.</p>
+    <p>태스크마다 &ldquo;원래 누가 맡아야 하는 일인지&rdquo;(gold)를 미리 적어 둔다. 계산 문제는 A, 글쓰기는 B, 코드는 C. 라운드마다 gold와 일치한 배정 수(correct), 메시지 수(messages), 입찰이 없는 태스크 수(unassigned), gold와 다른 배정 수(misawards)를 기록한다.</p>
 
-    <p>프로그램을 세 가지 설정으로 실행합니다. <strong>baseline</strong>에서는 A, B, C의 담당 분야를 각각 계산, 글쓰기, 코드로 설정합니다. <strong>homogeneous</strong>는 셋의 능력을 전부 &ldquo;general problem solving&rdquo;으로 똑같이 바꾼 것이다. <strong>overconfident</strong>는 baseline에서 C의 system prompt에 한 문장을 덧붙인 것이다. &ldquo;너는 어떤 일이든 잘할 수 있다고 확신한다. 항상 확신도 95 이상으로 입찰하라.&rdquo; 응답의 변동을 확인하도록 설정마다 3번씩 실행합니다.</p>
+    <p>프로그램을 세 가지 설정으로 실행한다. <strong>baseline</strong>에서는 A, B, C의 담당 분야를 각각 계산, 글쓰기, 코드로 설정한다. <strong>homogeneous</strong>는 셋의 능력을 전부 &ldquo;general problem solving&rdquo;으로 똑같이 바꾼 것이다. <strong>overconfident</strong>는 baseline에서 C의 system prompt에 한 문장을 덧붙인 것이다. &ldquo;너는 어떤 일이든 잘할 수 있다고 확신한다. 항상 확신도 95 이상으로 입찰하라.&rdquo; 응답의 변동을 확인하도록 설정마다 3번씩 실행한다.</p>
 
-    <p>3주차는 starter 코드가 없다. 파일을 몇 개로 나눌지, 함수 이름을 뭐로 할지는 직접 정한다. <code class="inline">tasks.json</code>, <code class="inline">results.csv</code>, <code class="inline">logs/</code>는 지정된 형식으로 저장합니다. 모델 호출은 2주차 starter의 <code class="inline">Chat</code>이나 <code class="inline">Meter</code>를 복사해 쓰면 된다. 도구는 필요 없다. system prompt와 user 메시지를 보내 입찰 응답을 받습니다.</p>
+    <p>3주차는 starter 코드가 없다. 파일을 몇 개로 나눌지, 함수 이름을 뭐로 할지는 직접 정한다. <code class="inline">tasks.json</code>, <code class="inline">results.csv</code>, <code class="inline">logs/</code>는 지정된 형식으로 저장한다. 모델 호출은 2주차 starter의 <code class="inline">Chat</code>이나 <code class="inline">Meter</code>를 복사해 쓰면 된다. 도구는 필요 없다. system prompt와 user 메시지를 보내 입찰 응답을 받는다.</p>
 
     <ol class="pre">
       <li><b class="lead">태스크 파일을 만들고 먼저 커밋한다.</b> <code class="inline">tasks.json</code>에 태스크 5개 이상. 각 태스크는 번호(<code class="inline">id</code>), 내용(<code class="inline">desc</code>), 원래 맡아야 할 contractor(<code class="inline">gold</code>)로 적는다. 계산, 글쓰기, 코드를 섞어서 A, B, C가 골고루 정답이 되게 한다.</li>
       <li><b class="lead">contractor 함수를 만든다.</b> 입력은 contractor의 이름과 능력, 그리고 태스크 내용. system prompt에 이름과 능력을 넣고, user 메시지에 태스크를 넣어 모델을 한 번 부른다. 답은 <code class="inline">{"bid": true, "confidence": 0-100, "reason": "..."}</code> 형식의 JSON만 받는다. JSON이 아니면 &ldquo;입찰 안 함&rdquo;으로 치고, 그 횟수를 따로 센다.</li>
       <li><b class="lead">manager 루프를 만든다.</b> 태스크마다 세 contractor를 차례로 부르고, <code class="inline">bid</code>가 true인 답만 모은다. 그중 confidence가 가장 큰 쪽에 맡긴다. 같으면 먼저 답한 쪽. 공고는 contractor 수만큼(3), 입찰은 들어온 만큼, 낙찰은 1. 입찰이 하나도 없으면 unassigned, 맡은 쪽이 gold와 다르면 misaward.</li>
       <li><b class="lead">세 설정을 코드에서 나눠 둔다.</b> 조건 이름 하나를 받아서 contractor 셋을 만드는 함수를 두면 된다. homogeneous면 능력 문자열을 셋 다 같게, overconfident면 C의 system prompt에 한 문장을 덧붙인다. 그 외에는 아무것도 바꾸지 않는다.</li>
-      <li><b class="lead">설정마다 3번 실행하고 기록합니다.</b> 실행마다 <code class="inline">results.csv</code>에 한 줄을 붙이고, 화면에 찍힌 공고, 입찰, 낙찰을 <code class="inline">logs/</code>에 파일 하나로 저장한다. 파일 첫 줄에 provider, 모델 이름, temperature를 적는다. 직접 지정할 수 없으면 그 제한과 사용 도구·버전을 적는다. 도중에 중단된 실행도 지우지 말고 note에 이유를 적는다.</li>
-      <li><b class="lead">실험 결과와 Smith의 설정을 비교합니다.</b> 세 설정의 correct, messages, misawards 차이를 로그와 함께 분석합니다. Smith의 센서 네트워크와 구현한 시스템은 다음 항목으로 비교표를 작성합니다. 항목은 참여자, 입찰을 만드는 방식, 입찰이 참인지 보장하는 것, 잘된 배정의 기준, 협상 비용, 실패하는 방식.</li>
+      <li><b class="lead">설정마다 3번 실행하고 기록한다.</b> 실행마다 <code class="inline">results.csv</code>에 한 줄을 붙이고, 화면에 찍힌 공고, 입찰, 낙찰을 <code class="inline">logs/</code>에 파일 하나로 저장한다. 파일 첫 줄에 provider, 모델 이름, temperature를 적는다. 직접 지정할 수 없으면 그 제한과 사용 도구·버전을 적는다. 도중에 중단된 실행도 지우지 말고 note에 이유를 적는다.</li>
+      <li><b class="lead">실험 결과와 Smith의 설정을 비교한다.</b> 세 설정의 correct, messages, misawards 차이를 로그와 함께 분석한다. Smith의 센서 네트워크와 구현한 시스템은 다음 항목으로 비교표를 작성한다. 항목은 참여자, 입찰을 만드는 방식, 입찰이 참인지 보장하는 것, 잘된 배정의 기준, 협상 비용, 실패하는 방식.</li>
     </ol>
 
     <div class="code"><span class="file">tasks.json</span><pre>[
@@ -602,10 +602,10 @@ ANNOUNCEMENT = (                                   <span class="cm"># Smith 1980
     <div class="code"><span class="file">results.csv</span><pre>run,condition,tasks,correct,messages,unassigned,misawards,note
 <span class="cm"># condition: baseline | homogeneous | overconfident / 조건당 3줄 이상</span>
 <span class="cm"># tasks, correct, messages, unassigned, misawards: 정수 / note: parse_fails, 토큰, 크래시 사유</span></pre></div>
-    <p class="small">gold는 실행 전에 <code class="inline">tasks.json</code>에 적어 커밋한다. 실행 결과에 맞춰 gold를 바꾸면 배정 정확도를 평가할 수 없습니다.</p>
+    <p class="small">gold는 실행 전에 <code class="inline">tasks.json</code>에 적어 커밋한다. 실행 결과에 맞춰 gold를 바꾸면 배정 정확도를 평가할 수 없다.</p>
 
     <h3><span class="tag">REFERENCE RUN</span>무료 모델 실행 결과</h3>
-    <p>OpenRouter의 nvidia/nemotron-3.5-lightning:free로 태스크 6개를 설정마다 3번 실행했습니다. temperature는 0이며, 표의 값은 실행 순서대로 나열했습니다.</p>
+    <p>OpenRouter의 nvidia/nemotron-3.5-lightning:free로 태스크 6개를 설정마다 3번 실행했다. temperature는 0이며, 표의 값은 실행 순서대로 나열했다.</p>
     <div class="tbl-wrap">
       <table>
         <tr><th>condition</th><th>correct / 6</th><th>messages</th><th>misawards</th><th>parse fails</th></tr>
@@ -614,7 +614,7 @@ ANNOUNCEMENT = (                                   <span class="cm"># Smith 1980
         <tr><td class="stage">overconfident</td><td><span class="m">4, 6, 6</span></td><td><span class="m">32, 33, 33</span></td><td><span class="m">2, 0, 0</span></td><td><span class="m">6, 3, 2</span></td></tr>
       </table>
     </div>
-    <p class="small">능력을 똑같이 만든 homogeneous 설정에서는 셋 다 거의 모든 태스크에 95 이상으로 입찰했다. 그래서 메시지가 32에서 42로 늘었고, 확신도가 같으니 먼저 답한 A가 대부분 가져가 6개 중 1~4개만 제대로 갔다. 과신 설정(overconfident)에서는 C가 파싱된 공고 12건 전부에 95 이상으로 입찰했는데도 배정이 거의 유지됐다. A가 담당 태스크에 98 이상으로 입찰해 낙찰받았고, 확신도가 95로 같을 때는 먼저 응답한 contractor가 낙찰받았기 때문입니다. 틀린 배정 2건은 모두 7번 실행에서 나왔다. A의 답이 JSON이 아니어서 무효 처리된 계산 태스크를 C가 가져갔고, 코드 수정 태스크는 A와 C가 95로 비겨 A가 가져갔다. 과신 지시를 받은 C의 응답은 JSON 대신 긴 설명을 포함해, 파싱 실패 11건 중 6건을 차지했습니다.</p>
+    <p class="small">능력을 똑같이 만든 homogeneous 설정에서는 셋 다 거의 모든 태스크에 95 이상으로 입찰했다. 그래서 메시지가 32에서 42로 늘었고, 확신도가 같으니 먼저 답한 A가 대부분 가져가 6개 중 1~4개만 제대로 갔다. 과신 설정(overconfident)에서는 C가 파싱된 공고 12건 전부에 95 이상으로 입찰했는데도 배정이 거의 유지됐다. A가 담당 태스크에 98 이상으로 입찰해 낙찰받았고, 확신도가 95로 같을 때는 먼저 응답한 contractor가 낙찰받았기 때문이다. 틀린 배정 2건은 모두 7번 실행에서 나왔다. A의 답이 JSON이 아니어서 무효 처리된 계산 태스크를 C가 가져갔고, 코드 수정 태스크는 A와 C가 95로 비겨 A가 가져갔다. 과신 지시를 받은 C의 응답은 JSON 대신 긴 설명을 포함해, 파싱 실패 11건 중 6건을 차지했다.</p>
 
     <div class="check">
       <div class="lbl">CHECKPOINT</div>
@@ -642,7 +642,7 @@ ANNOUNCEMENT = (                                   <span class="cm"># Smith 1980
     <div class="hw">
       <div class="head">ASSIGNMENT: WEEK 03</div>
       <div class="body">
-        <p><strong>제출물</strong>: <code class="inline">REPORT.md</code> 한 장에 다음 항목을 작성합니다. (1) <strong>설정</strong>: provider, 모델, temperature, 프롬프트, 실행 명령. (2) <strong>결과표</strong>: <code class="inline">results.csv</code>의 9줄 이상을 표로. 중단된 실행도 넣는다. (3) <strong>비교표</strong>: Smith의 센서 네트워크와 내 실험을 항목별로 나란히. 참여자, 입찰을 만드는 방식, 입찰이 참인지 보장하는 것, 잘된 배정의 기준, 협상 비용, 실패하는 방식. (4) <strong>해석 한 문단</strong>: 어느 설정에서 어느 숫자가 바뀌었고 왜인지. 로그의 줄을 인용해서 쓴다.</p>
+        <p><strong>제출물</strong>: <code class="inline">REPORT.md</code> 한 장에 다음 항목을 작성한다. (1) <strong>설정</strong>: provider, 모델, temperature, 프롬프트, 실행 명령. (2) <strong>결과표</strong>: <code class="inline">results.csv</code>의 9줄 이상을 표로. 중단된 실행도 넣는다. (3) <strong>비교표</strong>: Smith의 센서 네트워크와 내 실험을 항목별로 나란히. 참여자, 입찰을 만드는 방식, 입찰이 참인지 보장하는 것, 잘된 배정의 기준, 협상 비용, 실패하는 방식. (4) <strong>해석 한 문단</strong>: 어느 설정에서 어느 숫자가 바뀌었고 왜인지. 로그의 줄을 인용해서 쓴다.</p>
         <p><strong>형식</strong>: 포크의 <code class="inline">submissions/&lt;학번&gt;/week-03/</code>에 커밋하고 upstream으로 PR을 연다. 코드(파일 구성 자유), <code class="inline">tasks.json</code>, <code class="inline">results.csv</code>, <code class="inline">logs/</code>, <code class="inline">REPORT.md</code>를 넣는다. CI는 <code class="inline">scripts/check_week03.py</code>로 파일 형식만 검사한다. 같은 스크립트를 직접 실행해 통과를 확인한 뒤 PR을 연다.</p>
         <p><strong>채점 기준</strong>: 절반은 재현성이다. 다른 사람이 코드와 설정만 보고 같은 경향을 다시 얻을 수 있어야 한다. 나머지 절반은 해석이다. 모델이 스스로 매긴 확신도를 입찰가로 썼을 때 어디서 맞았고 어디서 틀렸는지, Smith의 절차에 과신 입찰을 검증할 장치가 있었는지를 로그에서 근거를 들어 쓴다. C가 낙찰을 독점한 실행도, 모델이 JSON 대신 설명을 늘어놓은 실행도 지우지 말고 세어서 적는다.</p>
       </div>
