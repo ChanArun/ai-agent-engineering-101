@@ -91,6 +91,13 @@ class LabTests(unittest.TestCase):
         self.assertIn('error',chat.messages[1][-1]['content'])
         self.assertIn('error',chat.messages[2][-1]['content'])
 
+    def test_answer_format_recovery(self):
+        chat = Scripted([response('The answer is 391.'), response('{"result":391}'), response('391')])
+        result = execute(chat, 'role', self.task, self.emit)
+        self.assertEqual(result['answer'], '391')
+        self.assertEqual(result['steps'], 3)
+        self.assertEqual(sum(e['event'] == 'invalid_answer' for e in self.events), 2)
+
     def test_max_steps(self):
         result=execute(Scripted([call(),call()]),'role',self.task,self.emit,max_steps=2)
         self.assertEqual(result['status'],'failed')

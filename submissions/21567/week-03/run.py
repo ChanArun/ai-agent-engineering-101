@@ -39,7 +39,10 @@ class Chat:
                                      headers={'Authorization': 'Bearer ' + self.key, 'Content-Type': 'application/json'})
         self.calls += 1
         with urllib.request.urlopen(req, timeout=90) as response:
-            return json.load(response)['choices'][0]['message']
+            data = json.load(response)
+            if data.get('error') or not data.get('choices'):
+                raise RuntimeError('Provider returned no completion')
+            return data['choices'][0]['message']
 
 
 def append(path, header, row):
