@@ -1,5 +1,11 @@
 import json
 import unittest
+import tempfile
+from pathlib import Path
+from unittest.mock import patch
+import csv
+import urllib.error
+import run as runner
 from agent import execute, calculate, extract_dates, sort_numbers
 from contract_net import parse_bid, choose, run, matches
 
@@ -99,5 +105,37 @@ class LabTests(unittest.TestCase):
         self.assertEqual(len(set(prompts['homogeneous'][:3])),1)
         self.assertEqual(prompts['baseline'][1:],prompts['overconfident'][1:])
         self.assertIn('Always participate',prompts['overconfident'][0])
+
+class RunnerTests(unittest.TestCase):
+    def test_csv_append_preserves_prior_rows(self):
+        with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as folder:
+            path = Path(folder) / 'results.csv'
+            runner.append(path, ['run', 'note'], {'run':'one', 'note':'failed'})
+            runner.append(path, ['run', 'note'], {'run':'two', 'note':''})
+            with path.open() as stream:
+                rows = list(csv.DictReader(stream))
+            self.assertEqual(rows, [{'run':'one','note':'failed'}, {'run':'two','note':''}])
+
+    def test_failed_request_is_preserved_without_credentials(self):
+        with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as folder:
+            root = Path(folder)
+            (root / 'tasks.json').write_text('[{"id":"a","desc":"Calculate 1+1","gold":"arithmetic","expected":2}]')
+            class Unauthorized:
+                model = 'test'
+                base = 'https://example.invalid/v1'
+                calls = 0
+                def __init__(self, model): pass
+                def __call__(self, *args, **kwargs):
+                    self.calls += 1
+                    raise urllib.error.HTTPError(self.base,401,'secret-value',{},None)
+            with patch.object(runner, 'ROOT', root), patch.object(runner, 'Chat', Unauthorized), patch('sys.argv',['run.py']), patch('builtins.print'):
+                self.assertEqual(runner.main(),1)
+            with (root / 'results.csv').open() as stream:
+                row = next(csv.DictReader(stream))
+            self.assertEqual(row['tasks'],'')
+            self.assertEqual(row['note'],'HTTPError')
+            log = next((root / 'logs').glob('*.jsonl')).read_text()
+            self.assertNotIn('secret-value',log)
+            self.assertEqual(json.loads(log.splitlines()[-1])['http_status'],401)
 
 if __name__=='__main__': unittest.main(verbosity=2)

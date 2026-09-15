@@ -5,6 +5,7 @@ import json
 import os
 from pathlib import Path
 import urllib.request
+import urllib.error
 import uuid
 from datetime import datetime, timezone
 from contract_net import run, CONDITIONS
@@ -77,7 +78,7 @@ def main():
             row = dict.fromkeys(HEADER, '')
             row.update(run=run_id, condition=args.condition, note=type(exc).__name__)
             erow = dict(run=run_id, condition=args.condition, llm_calls=chat.calls if chat else 0)
-            emit('crash', **row)
+            emit('crash', **row, http_status=exc.code if isinstance(exc, urllib.error.HTTPError) else None)
         if not args.smoke:
             append(ROOT / 'results.csv', HEADER, row)
             append(ROOT / 'execution.csv', EXEC_HEADER, erow)
