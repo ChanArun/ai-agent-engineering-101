@@ -58,18 +58,22 @@ REPORT.md에는 실제 결과가 생긴 뒤 표와 로그 근거를 추가한다
 
 ## 현재 검증 상태
 
-- 자동 테스트 13개 통과: 도구, 입찰 검증, 동점, 불참, 잘못된 응답, 실제 수행 루프의 관측 연결,
-  최대 반복, 도구 오류 회복, 조건 통제, 배정·수행의 독립 평가, CSV 누적 보존, 인증 실패 기록.
-- 테스트의 LLM 응답은 Scripted 대역이다. 실제 LLM의 행동 또는 조건별 성능을 입증하지 않는다.
-- 실제 연결 시도: 현재 환경의 서버가 HTTP 401을 반환했다. smoke/에 실패 원본을 보존했다.
-- 실제 9회 실험과 수행 검증은 미완료다. 결과를 만들어 채우지 않았다.
-- 기존 구조 검사는 results.csv, logs/ 9개, REPORT.md가 아직 없어 실패한다.
-  이는 제출 미완료를 정확히 나타낸다. 강의 원본과 검사기는 변경하지 않았다.
+- 자동 테스트 14개 통과. 응답 형식 수정과 도구 루프, 조건 통제, 실패 기록을 검증한다.
+- OpenRouter의 nvidia/nemotron-3.5-lightning:free 모델로 실제 단일 작업 검증 성공.
+  smoke/20260915T094610-2e5b4232.jsonl에서 입찰 3개, 배정, calculate 도구 실행,
+  최종 답 391과 success=true를 확인할 수 있다.
+- 앞선 인증 실패, 잘못된 JSON 입찰, 도구 생략, 객체로 감싼 최종 답변,
+  제공자의 응답 누락도 원본 로그와 커밋에 보존했다.
+- 세 조건 각 3회 실험은 진행 중이다. 실제 완료 여부와 지표는 results.csv와 logs/를 기준으로 확인한다.
 
-## 다음 확인
+## 재현 설정
 
-제공자 인증 설정이 복구되면 단일 작업 연결을 먼저 재실행한다. tool 관측과 정답을 확인한 후
-세 조건 9회 실험을 실행한다. 결과·메시지 수를 원본 로그와 대조하고 보고서를 작성한 뒤
-`python3 ../../../scripts/check_week03.py .`를 실행한다.
+OpenRouter는 `--provider openrouter`로 선택한다. `OPENROUTER_API_KEY`를 사용하고
+다른 OPENAI_BASE_URL 설정은 무시한다. 모델은 `nvidia/nemotron-3.5-lightning:free`,
+temperature=0, max_tokens=1024, reasoning.enabled=false다.
+입찰에는 response_format=json_object를 요청한다. 첫 수행 호출은 tool_choice=required,
+관측 이후는 auto다. 최종 답이 문장이나 객체면 정답 정보 없이 형식 수정만 요청한다.
+최대 수행 호출 6회는 수정 요청에도 적용된다. 정답 자체가 틀리면 재시도하지 않는다.
 
-OpenRouter는 `--provider openrouter`로 선택한다. 이때 `OPENROUTER_API_KEY`를 사용하고 다른 OPENAI_BASE_URL 설정은 무시한다. 현재 환경의 OpenRouter 키로 직접 재시도했으나 인증 API가 HTTP 401, `User not found.`를 반환했다. 모델 호출 전에 인증 복구가 필요하다. 키를 대화나 저장소에 붙여넣지 않고 실행 환경에서 설정한다.
+키는 실행 환경으로 전달한다. 파일에 저장하지 않는다. 3개 조건은 독립 실행이며
+CSV append에는 잠금을 사용해 같은 파일에 기록하는 행이 섞이지 않게 한다.
