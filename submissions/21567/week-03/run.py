@@ -32,6 +32,7 @@ class Chat:
             payload['reasoning'] = {'enabled': False}
         if tools:
             payload['tools'] = tools
+            payload['tool_choice'] = 'auto' if any(m.get('role') == 'tool' for m in messages) else 'required'
         else:
             payload['response_format'] = {'type': 'json_object'}
         req = urllib.request.Request(self.base + '/chat/completions', data=json.dumps(payload).encode(),

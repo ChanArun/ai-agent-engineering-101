@@ -60,6 +60,12 @@ def execute(chat, role, task, emit, max_steps=6):
         calls = msg.get('tool_calls') or []
         if not calls:
             answer = msg.get('content') or ''
+            try:
+                json.loads(answer)
+            except ValueError:
+                emit('invalid_answer', task=task['id'], answer=answer, steps=step)
+                messages.append({'role': 'user', 'content': 'Invalid output format. Return only the JSON value requested by the task, without explanation or markdown.'})
+                continue
             emit('answer', task=task['id'], answer=answer, steps=step)
             return {'status': 'completed', 'answer': answer, 'steps': step}
         for call in calls:
