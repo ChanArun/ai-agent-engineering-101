@@ -28,8 +28,12 @@ class Chat:
 
     def __call__(self, messages, tools=None):
         payload = dict(model=self.model, messages=messages, temperature=0, max_tokens=1024)
+        if self.base == 'https://openrouter.ai/api/v1':
+            payload['reasoning'] = {'enabled': False}
         if tools:
             payload['tools'] = tools
+        else:
+            payload['response_format'] = {'type': 'json_object'}
         req = urllib.request.Request(self.base + '/chat/completions', data=json.dumps(payload).encode(),
                                      headers={'Authorization': 'Bearer ' + self.key, 'Content-Type': 'application/json'})
         self.calls += 1
