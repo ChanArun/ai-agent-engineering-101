@@ -1,6 +1,7 @@
 """Standard library OpenAI-compatible runner; never reads .env files."""
 import argparse
 import csv
+import fcntl
 import json
 import os
 from pathlib import Path
@@ -46,8 +47,10 @@ class Chat:
 
 
 def append(path, header, row):
-    new = not path.exists()
-    with path.open('a', newline='') as f:
+    with path.open('a+', newline='') as f:
+        fcntl.flock(f.fileno(), fcntl.LOCK_EX)
+        f.seek(0, 2)
+        new = f.tell() == 0
         writer = csv.DictWriter(f, fieldnames=header)
         if new:
             writer.writeheader()
