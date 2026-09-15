@@ -456,7 +456,9 @@ REQUEST | INFORMATION</pre></div>
       <p class="sub">Smith의 공고, 입찰, 낙찰 절차를 사용하며 입찰 정보와 낙찰 기준을 실습에 맞게 설정합니다.</p>
     </div>
 
-    <p><strong>바꾸는 것(독립변수)</strong>은 한 번에 하나만 바꾼다. contractor들의 능력이 서로 다른가 같은가, 한 contractor에게 과신 지시를 줬는가. <strong>고정하는 것(통제변수)</strong>은 실험 내내 그대로 둔다. 태스크 목록, 프롬프트, 모델, temperature, max_tokens. 이것이 실행마다 달라지면 결과 차이가 바꾼 것 때문인지 알 수 없다. <strong>재는 것(측정변수)</strong>은 실행마다 기록한다.</p>
+    <p><strong>바꾸는 것(독립변수)</strong>은 한 번에 하나만 바꾼다. contractor들의 능력이 서로 다른가 같은가, 한 contractor에게 과신 지시를 줬는가. <strong>고정하는 것(통제변수)</strong>은 실험 내내 그대로 둔다. 태스크 목록, 조건별 변경 부분을 제외한 공통 프롬프트, 모델, 직접 지정할 수 있는 temperature와 max_tokens를 고정합니다. 사용 도구와 버전도 기록합니다. 이 설정이 실행마다 달라지면 어떤 변경 때문에 결과가 달라졌는지 구분하기 어렵습니다. <strong>재는 것(측정변수)</strong>은 실행마다 기록한다.</p>
+
+    <div class="note"><b>temperature를 지정할 수 없는 도구</b><code class="inline">claude -p</code>처럼 temperature 옵션을 제공하지 않는 도구는 설정값을 추측하지 말고 &ldquo;직접 설정 불가, 내부 값 미확인&rdquo;으로 기록합니다. <code class="inline">--system-prompt</code>에 담당 분야, 입찰 기준, 응답 형식을 명시합니다. 예를 들어 &ldquo;담당 분야에 해당하는 작업에만 입찰하고, bid·confidence·reason을 포함한 JSON 객체 하나만 출력합니다. 코드 블록이나 추가 설명은 붙이지 않습니다.&rdquo;처럼 작성합니다. 이 지시는 temperature를 바꾸거나 동일한 응답을 보장하지 않습니다. 공통 지시는 세 조건에 동일하게 적용하고, overconfident 조건에서만 과신 지시를 추가합니다. 설정마다 3번 이상 실행하고 파싱 실패도 기록합니다.</div>
 
     <div class="recorder">
       <div><span class="k">quality</span><span class="v">정답 contractor에게 간 태스크 수 ÷ 전체 태스크 수. 태스크마다 gold contractor를 실행 전에 정해 둔다.</span></div>
@@ -540,7 +542,7 @@ REQUEST | INFORMATION</pre></div>
       <li><b class="lead">contractor 함수를 만든다.</b> 입력은 contractor의 이름과 능력, 그리고 태스크 내용. system prompt에 이름과 능력을 넣고, user 메시지에 태스크를 넣어 모델을 한 번 부른다. 답은 <code class="inline">{"bid": true, "confidence": 0-100, "reason": "..."}</code> 형식의 JSON만 받는다. JSON이 아니면 &ldquo;입찰 안 함&rdquo;으로 치고, 그 횟수를 따로 센다.</li>
       <li><b class="lead">manager 루프를 만든다.</b> 태스크마다 세 contractor를 차례로 부르고, <code class="inline">bid</code>가 true인 답만 모은다. 그중 confidence가 가장 큰 쪽에 맡긴다. 같으면 먼저 답한 쪽. 공고는 contractor 수만큼(3), 입찰은 들어온 만큼, 낙찰은 1. 입찰이 하나도 없으면 unassigned, 맡은 쪽이 gold와 다르면 misaward.</li>
       <li><b class="lead">세 설정을 코드에서 나눠 둔다.</b> 조건 이름 하나를 받아서 contractor 셋을 만드는 함수를 두면 된다. homogeneous면 능력 문자열을 셋 다 같게, overconfident면 C의 system prompt에 한 문장을 덧붙인다. 그 외에는 아무것도 바꾸지 않는다.</li>
-      <li><b class="lead">설정마다 3번 실행하고 기록합니다.</b> 실행마다 <code class="inline">results.csv</code>에 한 줄을 붙이고, 화면에 찍힌 공고, 입찰, 낙찰을 <code class="inline">logs/</code>에 파일 하나로 저장한다. 파일 첫 줄에 provider, 모델 이름, temperature를 적는다. 도중에 중단된 실행도 지우지 말고 note에 이유를 적는다.</li>
+      <li><b class="lead">설정마다 3번 실행하고 기록합니다.</b> 실행마다 <code class="inline">results.csv</code>에 한 줄을 붙이고, 화면에 찍힌 공고, 입찰, 낙찰을 <code class="inline">logs/</code>에 파일 하나로 저장한다. 파일 첫 줄에 provider, 모델 이름, temperature를 적는다. 직접 지정할 수 없으면 그 제한과 사용 도구·버전을 적는다. 도중에 중단된 실행도 지우지 말고 note에 이유를 적는다.</li>
       <li><b class="lead">실험 결과와 Smith의 설정을 비교합니다.</b> 세 설정의 correct, messages, misawards 차이를 로그와 함께 분석합니다. Smith의 센서 네트워크와 구현한 시스템은 다음 항목으로 비교표를 작성합니다. 항목은 참여자, 입찰을 만드는 방식, 입찰이 참인지 보장하는 것, 잘된 배정의 기준, 협상 비용, 실패하는 방식.</li>
     </ol>
 
