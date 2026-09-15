@@ -52,7 +52,7 @@ TOOLS = [
 
 
 def execute(chat, role, task, emit, max_steps=6):
-    messages = [{'role': 'system', 'content': role + '\nPerform the awarded task. Use the supplied tool to verify your answer. Return only the final JSON value, without markdown.'},
+    messages = [{'role': 'system', 'content': role + '\nPerform the awarded task. Use the supplied tool to verify your answer. Return only the final JSON value, without markdown. For a numeric task output a bare number such as 42. For a list task output a bare array such as [1, 2]. Never wrap the answer in an object or a result key.'},
                 {'role': 'user', 'content': json.dumps({'id': task['id'], 'desc': task['desc']})}]
     for step in range(1, max_steps + 1):
         msg = chat(messages, tools=TOOLS)
@@ -61,7 +61,9 @@ def execute(chat, role, task, emit, max_steps=6):
         if not calls:
             answer = msg.get('content') or ''
             try:
-                json.loads(answer)
+                parsed = json.loads(answer)
+                if isinstance(parsed, dict):
+                    raise ValueError('Expected a bare number or array, not an object')
             except ValueError:
                 emit('invalid_answer', task=task['id'], answer=answer, steps=step)
                 messages.append({'role': 'user', 'content': 'Invalid output format. Return only the JSON value requested by the task, without explanation or markdown.'})
