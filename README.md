@@ -73,6 +73,6 @@ LLMs and agent tools (Claude Code, Codex, opencode, anything) are free to use on
 
 The lecture notes, figures, assignment specs, and course code in this repository are licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). You may read, copy, modify, and share them for study and other non-commercial purposes, as long as you credit the source and keep the same license on anything you derive from them.
 
-Using this material to teach a course, whether at a school, a company, or a paid program, is not covered by that license. If you want to do that, email jqyu.lee@gmail.com first and describe the setting. Commercial use without permission is a copyright infringement and will be pursued.
+Using this material to teach a course, whether at a school, a company, or a paid program, is not covered by that license. If you want to do that, email jaegyu.lee@ourolabs.ai first and describe the setting. Commercial use without permission is a copyright infringement and will be pursued.
 
 `submissions/` is excluded: each student owns the work in their own directory.
