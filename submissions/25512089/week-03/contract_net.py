@@ -75,34 +75,30 @@ def build_contractors(condition: str):
 
     raise ValueError(f"unknown condition: {condition}")
 
-
 def _extract_json(text: str):
     text = text.strip()
 
-    # 1) Direct JSON.
+    # Accept only a clean JSON object.
     try:
-        return json.loads(text)
+        data = json.loads(text)
+        return data if isinstance(data, dict) else None
     except json.JSONDecodeError:
         pass
 
-    # 2) Fenced JSON.
-    fence = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", text, re.S | re.I)
+    # Also allow one pure fenced JSON object, but no surrounding reasoning/prose.
+    fence = re.fullmatch(
+        r"```(?:json)?\s*(\{.*\})\s*```",
+        text,
+        re.S | re.I,
+    )
     if fence:
         try:
-            return json.loads(fence.group(1))
-        except json.JSONDecodeError:
-            pass
-
-    # 3) First object-shaped substring.
-    obj = re.search(r"\{.*\}", text, re.S)
-    if obj:
-        try:
-            return json.loads(obj.group(0))
+            data = json.loads(fence.group(1))
+            return data if isinstance(data, dict) else None
         except json.JSONDecodeError:
             pass
 
     return None
-
 
 class ContractNet:
     def __init__(self, model: str, temperature: float = 0.0):
