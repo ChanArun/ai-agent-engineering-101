@@ -12,3 +12,5 @@ run,condition,tasks,correct,messages,unassigned,misawards,note
 11,baseline,6,0,36,6,0,unparseable_bids=18
 12,homogeneous,6,0,36,6,0,unparseable_bids=18
 13,homogeneous,6,0,36,6,0,unparseable_bids=18
+14,homogeneous,6,0,36,6,0,unparseable_bids=18
+15,overconfident,6,0,36,6,0,unparseable_bids=18
