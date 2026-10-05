@@ -75,7 +75,7 @@ RUN_IDS = {
     ("server_inject", 2): 5,
     ("server_inject", 3): 6,
 
-    # Optional conditions, if ever used.
+    # Optional conditions
     ("prompt", 1): 7,
     ("prompt", 2): 8,
     ("prompt", 3): 9,
@@ -309,6 +309,7 @@ async def run_episode(
     ]
 
     total_tool_calls = 0
+    total_refused_calls = 0
     recovered_refusals = 0
 
     print(
@@ -344,11 +345,13 @@ async def run_episode(
             own_limit = int(
                 scenario["budget"]
             )
+
         elif role == "seller":
             token = seller_token
             own_limit = int(
                 scenario["reserve"]
             )
+
         else:
             raise RuntimeError(
                 f"Invalid server turn: {role}"
@@ -377,6 +380,15 @@ async def run_episode(
             )
         )
 
+        # Count every move refused by the server,
+        # including token-binding, turn, and limit errors.
+        total_refused_calls += int(
+            result.get(
+                "refused_attempts",
+                0,
+            )
+        )
+
         recovered_refusals += int(
             result.get(
                 "recovered_refusals",
@@ -394,9 +406,8 @@ async def run_episode(
             negotiation_id
         )
 
-    # If 8 successful moves were used and
-    # neither party closed the negotiation,
-    # its measured outcome is open.
+    # If the move limit was reached without a deal
+    # or explicit refusal, the outcome remains open.
     state = await admin_state(
         negotiation_id
     )
@@ -427,12 +438,10 @@ async def run_episode(
         )
     )
 
-    refused_calls = int(
-        state.get(
-            "refused_calls",
-            0,
-        )
-    )
+    # Use host-observed refused tool calls.
+    # This captures every server refusal that the
+    # agent actually received and reacted to.
+    refused_calls = total_refused_calls
 
     turns = int(
         state.get(
@@ -527,13 +536,14 @@ async def run_batch(
         )
     )
 
-    # Append mode is intentional:
-    # if a run is interrupted and resumed,
-    # the same run keeps one log file.
+    # Append mode is intentional.
+    # If interrupted, rerunning the same command
+    # continues the same run and log file.
     with log_path.open(
         "a",
         encoding="utf-8",
     ) as log_file:
+
         tee = Tee(
             sys.stdout,
             log_file,
@@ -544,22 +554,27 @@ async def run_batch(
             print(
                 "=" * 72
             )
+
             print(
                 f"RUN {run_id} "
                 f"condition={condition} "
                 f"repeat={repeat}"
             )
+
             print(
                 f"model={MODEL}"
             )
+
             print(
                 f"temperature="
                 f"{TEMPERATURE}"
             )
+
             print(
                 f"turn_limit="
                 f"{TURN_LIMIT}"
             )
+
             print(
                 "=" * 72
             )
@@ -581,6 +596,7 @@ async def run_batch(
                         f"{scenario['id']} "
                         f"already complete"
                     )
+
                     continue
 
                 try:
