@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import time
 from typing import Any
 
 from openai import OpenAI
@@ -33,19 +34,14 @@ client = OpenAI(
 
 
 def _extract_json(text: str) -> dict[str, Any]:
-    """
-    Parse a JSON object from the model response.
-
-    The model is instructed to return JSON only,
-    but this also tolerates fenced JSON or a small
-    amount of surrounding text.
-    """
     text = text.strip()
 
     try:
         value = json.loads(text)
+
         if isinstance(value, dict):
             return value
+
     except json.JSONDecodeError:
         pass
 
@@ -56,7 +52,10 @@ def _extract_json(text: str) -> dict[str, Any]:
     )
 
     if fenced:
-        value = json.loads(fenced.group(1))
+        value = json.loads(
+            fenced.group(1)
+        )
+
         if isinstance(value, dict):
             return value
 
@@ -65,74 +64,87 @@ def _extract_json(text: str) -> dict[str, Any]:
 
     if start != -1 and end > start:
         value = json.loads(
-            text[start : end + 1]
+            text[start:end + 1]
         )
 
         if isinstance(value, dict):
             return value
 
     raise ValueError(
-        f"Model did not return a JSON object: {text!r}"
+        "Model did not return a valid JSON object. "
+        f"Raw response: {text!r}"
     )
 
 
 def _call_json(
     system_prompt: str,
     user_prompt: str,
+    label: str,
 ) -> dict[str, Any]:
     """
-    Call the GroqCloud model and require a JSON
-    decision. Retry once if the first response is
-    not valid JSON.
+    Call GroqCloud with retries.
+
+    Retries handle:
+    - temporary API/provider failures
+    - malformed JSON
+    - empty model responses
     """
 
     last_error: Exception | None = None
 
-    for attempt in range(2):
-        messages = [
-            {
-                "role": "system",
-                "content": system_prompt,
-            },
-            {
-                "role": "user",
-                "content": user_prompt,
-            },
-        ]
-
-        if attempt == 1:
-            messages.append(
-                {
-                    "role": "user",
-                    "content": (
-                        "Your previous answer was not "
-                        "valid JSON. Return ONLY the "
-                        "requested JSON object."
-                    ),
-                }
-            )
-
-        response = client.chat.completions.create(
-            model=MODEL,
-            temperature=0,
-            reasoning_effort="low",
-            messages=messages,
-        )
-
-        text = (
-            response.choices[0]
-            .message.content
-            or ""
-        )
+    for attempt in range(1, 6):
 
         try:
-            return _extract_json(text)
+            response = (
+                client.chat.completions.create(
+                    model=MODEL,
+                    temperature=0,
+                    messages=[
+                        {
+                            "role": "system",
+                            "content": system_prompt,
+                        },
+                        {
+                            "role": "user",
+                            "content": user_prompt,
+                        },
+                    ],
+                )
+            )
+
+            text = (
+                response.choices[0]
+                .message.content
+                or ""
+            )
+
+            result = _extract_json(text)
+
+            return result
+
         except Exception as exc:
             last_error = exc
 
+            print(
+                "[HARNESS RETRY] "
+                f"label={label} "
+                f"attempt={attempt}/5 "
+                f"error={type(exc).__name__}: "
+                f"{exc}",
+                flush=True,
+            )
+
+            if attempt < 5:
+                time.sleep(
+                    min(
+                        2.0,
+                        0.5 * attempt,
+                    )
+                )
+
     raise RuntimeError(
-        f"Harness failed to return valid JSON: "
-        f"{last_error}"
+        f"Harness failed after 5 attempts "
+        f"for {label}: {last_error}"
     )
 
 
@@ -141,24 +153,20 @@ def seller_opening(
     item: str,
     reserve: int,
 ) -> dict[str, Any]:
-    """
-    Let the model choose the seller's opening price.
-    """
 
     system = """
 You are the decision-making harness for an A2A seller.
 
-You negotiate commercially but safely.
+You decide the opening asking price.
 
 Rules:
-- You sell the named item.
-- The reserve is the absolute minimum legal selling price.
+- The reserve is the absolute minimum selling price.
 - Never ask below the reserve.
-- Choose a realistic opening price that leaves room to negotiate.
-- The negotiation should still have a reasonable chance to succeed.
-- You must make the pricing decision yourself.
+- Choose a realistic whole-number opening price.
+- Leave some room for negotiation.
+- You must make the pricing decision.
 
-Return ONLY JSON:
+Return ONLY JSON in exactly this form:
 {"action":"ask","price":INTEGER}
 """.strip()
 
@@ -169,26 +177,62 @@ Seller reserve: {reserve}
 Choose the opening asking price.
 """.strip()
 
-    result = _call_json(
-        system,
-        user,
-    )
+    last_result = None
 
-    if result.get("action") != "ask":
-        raise ValueError(
-            f"Unexpected seller opening action: {result}"
+    for semantic_attempt in range(1, 4):
+
+        result = _call_json(
+            system,
+            user,
+            label="seller_opening",
         )
 
-    price = int(result["price"])
+        last_result = result
 
-    # Safety enforcement in code as well as prompt.
-    if price < reserve:
-        price = reserve
+        try:
+            if (
+                str(
+                    result.get(
+                        "action",
+                        "",
+                    )
+                ).lower()
+                != "ask"
+            ):
+                raise ValueError(
+                    "action must be ask"
+                )
 
-    return {
-        "action": "ask",
-        "price": price,
-    }
+            price = int(
+                result["price"]
+            )
+
+            # Hard reserve enforcement.
+            price = max(
+                reserve,
+                price,
+            )
+
+            return {
+                "action": "ask",
+                "price": price,
+            }
+
+        except Exception as exc:
+
+            print(
+                "[HARNESS SEMANTIC RETRY] "
+                f"seller_opening "
+                f"attempt={semantic_attempt}/3 "
+                f"result={result} "
+                f"error={exc}",
+                flush=True,
+            )
+
+    raise RuntimeError(
+        "Seller opening decision remained "
+        f"invalid: {last_result}"
+    )
 
 
 def seller_turn(
@@ -200,30 +244,31 @@ def seller_turn(
     turn_number: int,
     history: list[str],
 ) -> dict[str, Any]:
-    """
-    Let the model decide whether to accept,
-    counteroffer, or reject.
-    """
 
     system = """
 You are the decision-making harness for an A2A seller.
 
-You must decide every negotiation action.
+You decide whether to accept, counteroffer, or reject.
 
 Rules:
-- The reserve is the absolute minimum legal selling price.
-- Never accept a buyer offer below the reserve.
-- Never counteroffer below the reserve.
-- If the buyer offers at least the reserve, accepting is normally the best choice.
-- If the offer is below reserve, negotiate with a counteroffer at or above reserve.
-- Do not reject too early when the buyer is still making progress.
-- Reject only when continuing negotiation is no longer useful.
-- Keep the negotiation short and practical.
+- The reserve is the absolute minimum selling price.
+- Never accept an offer below the reserve.
+- Never counter below the reserve.
+- If the buyer offers at least the reserve, accepting is normally best.
+- If the buyer is below reserve, negotiate with a counteroffer at or above reserve.
+- Do not reject too early when progress is being made.
+- Keep negotiation practical and short.
 
-Return ONLY one of these JSON objects:
+Return ONLY one JSON object:
 
 {"action":"accept"}
+
+or
+
 {"action":"counter","price":INTEGER}
+
+or
+
 {"action":"reject"}
 """.strip()
 
@@ -240,45 +285,77 @@ History:
 Choose the seller's next action.
 """.strip()
 
-    result = _call_json(
-        system,
-        user,
-    )
+    last_result = None
 
-    action = str(
-        result.get("action", "")
-    ).lower()
+    for semantic_attempt in range(1, 4):
 
-    # The model chooses the action.
-    # Code only enforces the hard reserve boundary.
-    if action == "accept":
-        if buyer_offer < reserve:
+        result = _call_json(
+            system,
+            user,
+            label="seller_turn",
+        )
+
+        last_result = result
+
+        try:
+            action = str(
+                result.get(
+                    "action",
+                    "",
+                )
+            ).lower()
+
+            if action == "accept":
+
+                if buyer_offer < reserve:
+                    raise ValueError(
+                        "cannot accept below reserve"
+                    )
+
+                return {
+                    "action": "accept",
+                }
+
+            if action == "counter":
+
+                price = int(
+                    result["price"]
+                )
+
+                price = max(
+                    reserve,
+                    price,
+                )
+
+                return {
+                    "action": "counter",
+                    "price": price,
+                }
+
+            if action == "reject":
+
+                return {
+                    "action": "reject",
+                }
+
             raise ValueError(
-                "Harness attempted to accept below reserve."
+                f"unknown action: {action}"
             )
 
-        return {
-            "action": "accept",
-        }
+        except Exception as exc:
 
-    if action == "counter":
-        price = int(result["price"])
+            print(
+                "[HARNESS SEMANTIC RETRY] "
+                f"seller_turn "
+                f"attempt={semantic_attempt}/3 "
+                f"result={result} "
+                f"error={exc}",
+                flush=True,
+            )
 
-        if price < reserve:
-            price = reserve
-
-        return {
-            "action": "counter",
-            "price": price,
-        }
-
-    if action == "reject":
-        return {
-            "action": "reject",
-        }
-
-    raise ValueError(
-        f"Unexpected seller decision: {result}"
+    raise RuntimeError(
+        "Seller decision remained invalid: "
+        f"{last_result}"
     )
 
 
@@ -290,36 +367,35 @@ def buyer_turn(
     turn_number: int,
     history: list[str],
 ) -> dict[str, Any]:
-    """
-    Let the model choose the buyer's next offer
-    or decide to walk away.
-    """
 
     system = """
 You are the decision-making harness for an A2A buyer.
 
-You must decide every buyer offer and when to walk away.
+You decide every buyer offer and when to walk away.
 
 Rules:
-- The budget is the absolute maximum legal purchase price.
+- The budget is the absolute maximum purchase price.
 - Never offer more than the budget.
-- Your goal is to successfully buy the item if the seller can reach your budget.
-- If the seller's current price is within budget, you should normally offer that price to close the deal.
-- If the seller price is above budget, negotiate upward toward the budget.
-- Do not walk away too early if a deal still appears possible.
+- Your goal is to buy when the seller can reach the budget.
+- If the seller's price is already within budget, normally offer that price to close.
+- If the seller's price is above budget, negotiate upward toward the budget.
+- Do not walk away too early when a deal is still possible.
 - Walk away when the seller cannot reach the budget.
-- Use a whole-number offer.
+- All offers must be whole numbers.
 
-Return ONLY one of these JSON objects:
+Return ONLY one JSON object:
 
 {"action":"offer","price":INTEGER}
+
+or
+
 {"action":"walk"}
 """.strip()
 
     user = f"""
 Item: {item}
 Buyer budget: {budget}
-Seller's latest asking/counter price: {seller_price}
+Seller's latest asking or counter price: {seller_price}
 Negotiation turn: {turn_number}
 
 History:
@@ -328,41 +404,77 @@ History:
 Choose the buyer's next action.
 """.strip()
 
-    result = _call_json(
-        system,
-        user,
-    )
+    last_result = None
 
-    action = str(
-        result.get("action", "")
-    ).lower()
+    for semantic_attempt in range(1, 4):
 
-    if action == "offer":
-        price = int(result["price"])
+        result = _call_json(
+            system,
+            user,
+            label="buyer_turn",
+        )
 
-        # Safety enforcement in code as well as prompt.
-        if price > budget:
-            price = budget
+        last_result = result
 
-        if price < 0:
-            price = 0
+        try:
+            action = str(
+                result.get(
+                    "action",
+                    "",
+                )
+            ).lower()
 
-        return {
-            "action": "offer",
-            "price": price,
-        }
+            if action == "offer":
 
-    if action == "walk":
-        return {
-            "action": "walk",
-        }
+                price = int(
+                    result["price"]
+                )
 
-    raise ValueError(
-        f"Unexpected buyer decision: {result}"
+                # Hard budget enforcement.
+                price = min(
+                    budget,
+                    price,
+                )
+
+                price = max(
+                    0,
+                    price,
+                )
+
+                return {
+                    "action": "offer",
+                    "price": price,
+                }
+
+            if action == "walk":
+
+                return {
+                    "action": "walk",
+                }
+
+            raise ValueError(
+                f"unknown action: {action}"
+            )
+
+        except Exception as exc:
+
+            print(
+                "[HARNESS SEMANTIC RETRY] "
+                f"buyer_turn "
+                f"attempt={semantic_attempt}/3 "
+                f"result={result} "
+                f"error={exc}",
+                flush=True,
+            )
+
+    raise RuntimeError(
+        "Buyer decision remained invalid: "
+        f"{last_result}"
     )
 
 
 if __name__ == "__main__":
+
     print(
         json.dumps(
             {
