@@ -491,7 +491,7 @@ the shop does not sign receipts yet (LAB 2), and there is no market_buyer yet (L
     <div class="code"><span class="file">terminal</span><pre>python scripts/market_kit.py join --dir submissions/&lt;student-id&gt;/week-07 \
     --market &lt;market URL&gt; --name &lt;nickname&gt; --tunnel
 <span class="cm"># Windows: drop the \ at the line ends and write it as one line</span></pre></div>
-    <p>The market URL is announced in class. <code class="inline">--tunnel</code> gives your shop a public URL through cloudflared. The tunnel URL does not open right after it is printed, so the kit waits until the card opens at that URL, then registers it. For a shop you have already deployed, use <code class="inline">--deployed &lt;URL&gt;</code> instead of <code class="inline">--tunnel</code>.</p>
+    <p>The market URL is announced in class. <code class="inline">--tunnel</code> gives your shop a public URL through cloudflared. The tunnel URL does not open right after it is printed. The shop is registered only once the card opens at that URL, so in the practice market log below it took 75 s from the <code class="inline">[tunnel]</code> line to the <code class="inline">[market]</code> line. For a shop you have already deployed, use <code class="inline">--deployed &lt;URL&gt;</code> instead of <code class="inline">--tunnel</code>.</p>
     <p>This cloudflared tunnel opens without a Cloudflare account or login. If you cannot use cloudflared, follow the table below.</p>
 
     <div class="tbl-wrap">
@@ -682,8 +682,8 @@ the shop does not sign receipts yet (LAB 2), and there is no market_buyer yet (L
         <tr><th>Condition</th><th>Round 0</th><th>Round 1</th></tr>
         <tr><td class="stage">Choice</td><td>The kit decides the shop</td><td>The buyer picks from the registry</td></tr>
         <tr><td class="stage">Repetition</td><td>Orders keep coming, but each is like a first trade</td><td>The buyer can meet the same shop again</td></tr>
-        <tr><td class="stage">Memory</td><td>None</td><td>The buyer carries its own trade records in a file</td></tr>
-        <tr><td class="stage">Information</td><td>None</td><td>Reviews on the review board</td></tr>
+        <tr><td class="stage">Memory</td><td>No past trades are kept</td><td>The buyer carries its own trade records in a file</td></tr>
+        <tr><td class="stage">Information</td><td>No reviews to read</td><td>Reviews on the review board</td></tr>
       </table>
     </div>
 
