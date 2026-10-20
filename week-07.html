@@ -1001,15 +1001,27 @@ verify forged -&gt; InvalidSignature</pre></div>
 <section>
   <div class="col">
     <div class="secmark"><span class="no">HW</span><h2>상시 시장</h2></div>
-    <p>수업이 끝나도 시장은 Round 2 규칙으로 계속 돈다. 내 가게와 buyer를 시장에 남기고, 정해진 market test를 통과한다.</p>
+    <p>수업이 끝나도 시장은 Round 2 규칙으로 계속 돈다. 과제의 목표는 내 가게와 buyer를 배포해 마감까지 시장에 올려 두는 것이다. 6주차 도전 4에서 배포한 가게를 이어서 쓴다. 정해진 market test도 통과한다.</p>
 
     <div class="tbl-wrap">
       <table>
         <tr><th>구분</th><th>지켜야 할 것</th></tr>
         <tr><td class="stage">가게</td><td>registry에 등록한 card URL에서 응답한다. 하한가 아래로 부르지도 팔지도 않는다. 영수증에 <code class="inline">sig_seller</code>를 붙인다</td></tr>
         <tr><td class="stage">buyer</td><td>주문 예산을 넘지 않는다. 거래마다 결과 줄(영수증, 별점, 후기)을 출력하고, 가게를 고른 이유를 로그에 남긴다</td></tr>
+        <tr><td class="stage">시장</td><td>마감 시각에 가게와 buyer가 내 GitHub 이름으로 시장에 떠 있고, buyer에게 Round 2로 인정된 거래가 하나 이상 있다</td></tr>
       </table>
     </div>
+
+    <h3><span class="tag">DEPLOY</span>가게와 buyer 배포</h3>
+    <p>노트북을 닫아도 에이전트가 시장에 남아 있어야 한다. buyer는 키트가 주문을 받아 실행하므로, 키트를 꺼지지 않는 컴퓨터(VPS, 집에 켜 둔 PC 등)에서 띄운다.</p>
+    <div class="recorder">
+      <div><span class="k">GitHub</span><span class="v"><code class="inline">https://market.ourolabs.ai/join</code>에서 로그인하고 claim code를 받는다. 이 코드로 join 한 가게와 buyer에 내 GitHub 이름이 붙는다</span></div>
+      <div><span class="k">가게</span><span class="v">6주차처럼 Workers나 VPS에 배포한다. 키트는 <code class="inline">--deployed</code>로 등록할 때도 <code class="inline">shop_key.pem</code>의 공개키를 등록하므로, 배포한 가게도 이 키로 서명한다. 개인키는 배포 서버의 비밀 값으로 넣고 커밋하지 않는다</span></div>
+      <div><span class="k">buyer</span><span class="v">꺼지지 않는 컴퓨터에서 아래 명령으로 키트를 띄운다. 가게도 그 컴퓨터에서 돌리면 <code class="inline">--deployed</code> 대신 <code class="inline">--tunnel</code>을 쓴다</span></div>
+    </div>
+    <div class="code"><span class="file">꺼지지 않는 컴퓨터에서</span><pre>MARKET_OWNER=&lt;claim code&gt; python scripts/market_kit.py join --dir submissions/&lt;학번&gt;/week-07 \
+    --market https://market.ourolabs.ai --name &lt;닉네임&gt; --deployed &lt;가게 URL&gt;</pre></div>
+    <p>이 컴퓨터의 <code class="inline">logs/market-kit.log</code>를 제출물에 넣는다.</p>
     <div class="code"><span class="file">market test</span><pre>python scripts/market_test_week07.py submissions/&lt;학번&gt;/week-07
 python scripts/check_week07.py submissions/&lt;학번&gt;/week-07</pre></div>
     <div class="tbl-wrap">
@@ -1023,22 +1035,28 @@ python scripts/check_week07.py submissions/&lt;학번&gt;/week-07</pre></div>
         <tr><td class="stage">buyer_reads_reviews</td><td>똑같이 행동하는 가게 둘 가운데 첫째에만 나쁜 후기가 있다. 세 번 중 두 번 이상 나쁜 후기 가게에는 요청을 보내지 않고 다른 가게로 간다</td></tr>
       </table>
     </div>
-    <p>모든 실행이 통과해야 한다. 참조 구현(Claude Code, haiku)은 25개를 모두 통과했고, 서명하지 않는 6주차 참조 가게는 <code class="inline">seller_signed_receipt</code> 세 번에서 실패했다. <code class="inline">agent.json</code>의 명령을 바꾸면 market test를 다시 돌린다. <code class="inline">check_week07.py</code>는 여기에 더해 <code class="inline">logs/market-kit.log</code>에 시장에서 거래한 ledger 줄이 있는지, <code class="inline">REPORT.md</code>가 600자 이상인지, 커밋에 <code class="inline">*.pem</code>이 없는지 본다.</p>
+    <p>모든 실행이 통과해야 한다. 참조 구현(Claude Code, haiku)은 25개를 모두 통과했고, 서명하지 않는 6주차 참조 가게는 <code class="inline">seller_signed_receipt</code> 세 번에서 실패했다. <code class="inline">agent.json</code>의 명령을 바꾸면 market test를 다시 돌린다.</p>
+    <p><code class="inline">check_week07.py</code>가 market test 결과와 함께 확인하는 것.</p>
+    <div class="recorder">
+      <div><span class="k">로그</span><span class="v"><code class="inline">logs/market-kit.log</code>에 시장에서 거래한 ledger 줄이 있다</span></div>
+      <div><span class="k">시장</span><span class="v">그 로그에 적힌 닉네임의 가게와 buyer가 시장에 내 GitHub 이름으로 등록돼 있다</span></div>
+      <div><span class="k">보고서</span><span class="v"><code class="inline">REPORT.md</code>가 600자 이상이다</span></div>
+      <div><span class="k">키</span><span class="v">커밋에 <code class="inline">*.pem</code>이 없다</span></div>
+    </div>
 
     <ol class="pre">
       <li><b class="lead">가게: 값 바꾸기 (필수).</b> 내 가게의 거래 기록과 후기를 읽고 호가를 스스로 바꾼다. 하한가는 그대로 지킨다. 바꾸기 전과 후의 점유율과 평균 거래가를 dashboard나 로그로 보인다.</li>
       <li><b class="lead">buyer: 정직하지 않은 참가자 (필수).</b> 시장에서 만난 정직하지 않은 가게나 buyer를 로그로 짚고, 내 buyer가 그 상대를 어떻게 피하게 됐는지 보인다.</li>
-      <li><b class="lead">배포 (가산점).</b> 6주차 도전 4와 같다. 배포한 가게는 수업이 없을 때도 거래를 받는다. 키트는 <code class="inline">--deployed</code>로 등록할 때도 <code class="inline">shop_key.pem</code>의 공개키를 등록하므로, 배포한 가게도 이 키로 서명한다. 개인키는 배포 서버의 비밀 값으로 넣고 커밋하지 않는다.</li>
     </ol>
 
     <div class="hw">
       <div class="head">ASSIGNMENT: WEEK 07</div>
       <div class="body">
         <div class="due">DUE: 다음 주 수업 시작 전 (PR을 연 시각 기준)</div>
-        <p><strong>제출물</strong>: 가게와 buyer의 코드, <code class="inline">agent.json</code>(<code class="inline">market_buyer</code> 명령 추가), market test가 만든 <code class="inline">test-report.json</code>과 <code class="inline">logs/</code>, 도전 1과 2의 로그(<code class="inline">logs/challenge-1/</code>, <code class="inline">logs/challenge-2/</code>), <code class="inline">REPORT.md</code>.</p>
-        <p><strong>REPORT.md</strong>: (1) buyer가 가게를 고르는 방법과 기억의 형식. (2) 후기를 하네스에 보여 준 방법. (3) Round 0, 1, 2에서 내 가게와 buyer에 일어난 일. dashboard 수치나 로그를 인용한다. (4) 서명을 붙이며 실패한 것과 고친 것. (5) 도전 1과 2.</p>
+        <p><strong>제출물</strong>: 가게와 buyer의 코드, <code class="inline">agent.json</code>(<code class="inline">market_buyer</code> 명령 추가), market test가 만든 <code class="inline">test-report.json</code>과 <code class="inline">logs/</code>, 도전 1과 2의 로그(<code class="inline">logs/challenge-1/</code>, <code class="inline">logs/challenge-2/</code>), 배포한 컴퓨터의 <code class="inline">logs/market-kit.log</code>, <code class="inline">REPORT.md</code>.</p>
+        <p><strong>REPORT.md</strong>: (1) buyer가 가게를 고르는 방법과 기억의 형식. (2) 후기를 하네스에 보여 준 방법. (3) Round 0, 1, 2에서 내 가게와 buyer에 일어난 일. dashboard 수치나 로그를 인용한다. (4) 서명을 붙이며 실패한 것과 고친 것. (5) 도전 1과 2. (6) 가게와 buyer를 어디에 어떻게 배포했는가.</p>
         <p><strong>형식</strong>: 포크의 <code class="inline">submissions/&lt;학번&gt;/week-07/</code>에 커밋하고 upstream으로 PR을 연다. 세부는 <code class="inline">weeks/week-07/README.md</code>에 있다.</p>
-        <p><strong>채점 기준</strong>: market test 통과 여부, 그리고 보고서의 (3), (4), (5). 가산점은 배포.</p>
+        <p><strong>채점 기준</strong>: market test 통과 여부, 마감 시각에 시장에 떠 있는 가게와 buyer, 그리고 보고서의 (3), (4), (5), (6).</p>
       </div>
     </div>
 
