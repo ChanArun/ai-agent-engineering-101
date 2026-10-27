@@ -291,8 +291,7 @@ footer .o{color:var(--muted)}
         <tr><td class="stage">R3</td><td>Round 3: only settled deals count</td></tr>
         <tr><td class="stage">LAB</td><td>Watch a payment happen</td></tr>
         <tr><td class="stage">L3</td><td>On to MeshKit</td></tr>
-        <tr><td class="stage">HW</td><td>Stay in the Round 3 market</td></tr>
-        <tr><td class="stage">MIDTERM</td><td>Midterm: reproduction report</td></tr>
+        <tr><td class="stage">HW</td><td>Midterm: your agent in the Round 3 market</td></tr>
       </table>
     </div>
   </div>
@@ -677,13 +676,25 @@ POST /checkout_sessions/{id}/cancel</pre></div>
 <!-- ============ HW ============ -->
 <section>
   <div class="col">
-    <div class="secmark"><span class="no">HW</span><h2>Stay in the Round 3 market</h2></div>
-    <p>After class the market keeps running under the Round 3 rules. Keep your shop and buyer in the market with kit v3 and build up settled deals. There is no solution code.</p>
-    <!-- TODO-confirm (instructor): N = 20 settled deals is a draft value. Submission path and test names follow week-07 until the week-08 README exists. -->
+    <div class="secmark"><span class="no">HW</span><h2>Midterm: your agent in the Round 3 market</h2></div>
+    <p>This assignment replaces the midterm. It is 30% of the grade and there is no midterm exam. As defined in week 1, an agent is a model, context and tools. Design all three yourself, put your shop and buyer in the Round 3 market, and build up settled deals. There is no solution code.</p>
+    <!-- TODO-confirm (instructor): rubric weights, N = 20 settled deals, the Round 3 start announcement date and how ranks map to points. -->
+
+    <h3><span class="tag">RUBRIC</span>Grading</h3>
+    <div class="tbl-wrap">
+      <table>
+        <tr><th>Item</th><th>What is checked</th></tr>
+        <tr><td class="stage">1. Components</td><td>Are the model, context and tools each implemented well? For context, how you manage it (meta-harness, memory and so on) and how past deals and reputation feed the next decision. For tools, what you turned into tools and how you built them</td></tr>
+        <tr><td class="stage">2. Original structure</td><td>How the structure that ties the three together differs from the kit's default</td></tr>
+        <tr><td class="stage">3. Round 3 rank</td><td>After the instructor announces the start of Round 3, does your agent place near the top of the leaderboard?</td></tr>
+      </table>
+    </div>
+
+    <h3><span class="tag">BASE</span>Baseline</h3>
     <div class="tbl-wrap">
       <table>
         <tr><th>Part</th><th>Requirement</th></tr>
-        <tr><td class="stage">Shop</td><td>At least 20 settled deals at your shop. Never sell below the floor</td></tr>
+        <tr><td class="stage">Shop</td><td>At least 20 settled deals at your shop. Never sell below the floor price</td></tr>
         <tr><td class="stage">Buyer</td><td>At least 20 deals settled by your buyer. Never complete a checkout above the open mandate's cap</td></tr>
         <tr><td class="stage">Shop deployed without the kit</td><td>Serve <code class="inline">/.well-known/acp.json</code> and the checkout session endpoints yourself, with at least one deal that passed the market's <code class="inline">/api/settle</code></td></tr>
       </table>
@@ -695,58 +706,14 @@ POST /checkout_sessions/{id}/cancel</pre></div>
     </ol>
 
     <div class="hw">
-      <div class="head">ASSIGNMENT: WEEK 08</div>
+      <div class="head">ASSIGNMENT: WEEK 08 (MIDTERM)</div>
       <div class="body">
         <div class="due">DUE: before next week's class (by the time the PR is opened)</div>
         <p><strong>Deliverables</strong>: <code class="inline">logs/market-kit.log</code> from the computer you deployed on (with settlement lines), the code you changed, and <code class="inline">REPORT.md</code>.</p>
-        <p><strong>REPORT.md</strong>: (1) What happened to your shop and buyer in Round 3, citing settlement counts and refusal reasons. (2) The pricing strategy you changed after budgets were hidden, and its result. (3) One week-07 incident that Round 3 does not stop, and why.</p>
+        <p><strong>REPORT.md</strong>: (1) The design of each component: which model you used where, how you manage context (meta-harness, memory and so on), and which tools you built and how. (2) One structure diagram and how it differs from the kit's default. (3) Round 3 results: settlement count, leaderboard rank and refusal reasons, quoted from the log.</p>
         <p><strong>Format</strong>: same as weeks 6 and 7. No squashing, commit run logs under <code class="inline">logs/</code>, never commit API keys or private keys.</p>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ============ MIDTERM ============ -->
-<section>
-  <div class="col">
-    <div class="secmark"><span class="no">MIDTERM</span><h2>Midterm: reproduction report</h2></div>
-    <p>Pick one assignment from weeks 3 to 7 and extend it into an academic report. This individual report is the whole midterm and 30% of the grade. There is no midterm exam. The report clinic is next week.</p>
-    <!-- TODO-confirm (instructor): report clinic week and the midterm due date. -->
-
-    <div class="tbl-wrap">
-      <table>
-        <tr><th>Assignment you can pick</th><th>Topic</th></tr>
-        <tr><td class="stage">W03</td><td>Contract Net</td></tr>
-        <tr><td class="stage">W04</td><td>Speech acts and FIPA-ACL</td></tr>
-        <tr><td class="stage">W05</td><td>MCP</td></tr>
-        <tr><td class="stage">W06</td><td>A2A</td></tr>
-        <tr><td class="stage">W07</td><td>An agent market: reputation and verification</td></tr>
-      </table>
-    </div>
-
-    <h3><span class="tag">FORMAT</span>Report format</h3>
-    <div class="recorder">
-      <div><span class="k">Abstract</span><span class="v">The protocol you reproduced, the question, and the conclusion in one paragraph. A reader should know the conclusion from this paragraph alone.</span></div>
-      <div><span class="k">Background</span><span class="v">What the original paper or specification claimed, and why it stayed theory at the time. Cite within the reading list.</span></div>
-      <div><span class="k">Method</span><span class="v">Independent variables, controls, metrics. Model, harness, prompts, agent setup. Concrete enough for someone else to rebuild the same conditions.</span></div>
-      <div><span class="k">Results</span><span class="v">Measurements in tables and figures. Include failure modes, and where things broke compared with the original paper's prediction.</span></div>
-      <div><span class="k">Discussion</span><span class="v">Separate what LLMs solved from what they still leave open.</span></div>
-      <div><span class="k">Reproduction</span><span class="v">Code, config files, prompts, seeds and model versions, and a one-line run command.</span></div>
-    </div>
-
-    <h3><span class="tag">RUBRIC</span>Grading</h3>
-    <div class="tbl-wrap">
-      <table>
-        <tr><th>Item</th><th>Weight</th><th>What we look at</th></tr>
-        <tr><td class="stage">Reproducibility</td><td>50%</td><td>Can someone else rerun the same experiment from the reproduction package alone? Published code, config, prompts and model versions, and whether the rerun succeeds</td></tr>
-        <tr><td class="stage">Method</td><td>20%</td><td>Are independent variables and controls separated, do the metrics answer the question, is the mapping to the original setup explicit</td></tr>
-        <tr><td class="stage">Discussion</td><td>20%</td><td>Does it separate what LLMs solved from what remains, and interpret the failures</td></tr>
-        <tr><td class="stage">Writing and form</td><td>10%</td><td>Does each section do its job, do tables and figures support the claims, are citations within the reading list</td></tr>
-      </table>
-    </div>
-
-    <h3><span class="tag">RULE</span>Choosing</h3>
-    <p>Pick exactly one assignment. The chosen experiment must go beyond the original submission: add a metric, control one more condition, or dig further into a failure mode. Resubmitting an earlier submission in a new format loses points. The reproduction package must run on someone else's computer with a one-line command.</p>
   </div>
 </section>
 

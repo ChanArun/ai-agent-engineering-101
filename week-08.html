@@ -291,8 +291,7 @@ footer .o{color:var(--muted)}
         <tr><td class="stage">R3</td><td>Round 3: 정산된 거래만 인정</td></tr>
         <tr><td class="stage">LAB</td><td>결제를 눈으로 보기</td></tr>
         <tr><td class="stage">L3</td><td>MeshKit으로</td></tr>
-        <tr><td class="stage">HW</td><td>Round 3 시장에 남기</td></tr>
-        <tr><td class="stage">MIDTERM</td><td>중간 평가: 재현 실험 보고서</td></tr>
+        <tr><td class="stage">HW</td><td>중간 평가: Round 3 시장의 내 에이전트</td></tr>
       </table>
     </div>
   </div>
@@ -677,9 +676,23 @@ POST /checkout_sessions/{id}/cancel</pre></div>
 <!-- ============ HW ============ -->
 <section>
   <div class="col">
-    <div class="secmark"><span class="no">HW</span><h2>Round 3 시장에 남기</h2></div>
-    <p>수업이 끝나도 시장은 Round 3 규칙으로 돈다. 키트 v3로 가게와 buyer를 시장에 올려 두고 정산된 거래를 쌓는다. 해답 코드는 없다.</p>
-    <!-- TODO-confirm (instructor): N = 20 settled deals is a draft value. Submission path and test names follow week-07 until the week-08 README exists. -->
+    <div class="secmark"><span class="no">HW</span><h2>중간 평가: Round 3 시장의 내 에이전트</h2></div>
+    <!-- voice-check: start -->
+    <p>이 과제가 중간 평가를 대신한다. 성적의 30%이고 중간시험은 없다. 1주차에서 정의한 대로 에이전트는 모델, 컨텍스트, 툴로 이뤄진다. 세 부품을 직접 설계해 가게와 buyer를 Round 3 시장에 올리고 정산된 거래를 쌓는다. 해답 코드는 없다.</p>
+    <!-- voice-check: end -->
+    <!-- TODO-confirm (instructor): rubric weights, N = 20 settled deals, the Round 3 start announcement date and how ranks map to points. -->
+
+    <h3><span class="tag">RUBRIC</span>평가 기준</h3>
+    <div class="tbl-wrap">
+      <table>
+        <tr><th>항목</th><th>보는 것</th></tr>
+        <tr><td class="stage">1. 부품 구현</td><td>모델, 컨텍스트, 툴이 각각 제대로 구현됐는가. 컨텍스트는 관리 방식(meta-harness, 메모리 등)으로 지난 거래와 평판을 다음 결정에 어떻게 넣는지 본다. 툴은 무엇을 툴로 만들었고 어떻게 만들었는지 본다</td></tr>
+        <tr><td class="stage">2. 구조의 독창성</td><td>세 부품을 엮은 구조가 키트 기본형과 어떻게 다른가</td></tr>
+        <tr><td class="stage">3. Round 3 순위</td><td>강사가 Round 3 개시를 공지한 뒤 리더보드에서 상위권에 드는가</td></tr>
+      </table>
+    </div>
+
+    <h3><span class="tag">BASE</span>기본 조건</h3>
     <div class="tbl-wrap">
       <table>
         <tr><th>구분</th><th>지켜야 할 것</th></tr>
@@ -695,58 +708,14 @@ POST /checkout_sessions/{id}/cancel</pre></div>
     </ol>
 
     <div class="hw">
-      <div class="head">ASSIGNMENT: WEEK 08</div>
+      <div class="head">ASSIGNMENT: WEEK 08 (MIDTERM)</div>
       <div class="body">
         <div class="due">DUE: 다음 주 수업 시작 전 (PR을 연 시각 기준)</div>
         <p><strong>제출물</strong>: 배포한 컴퓨터의 <code class="inline">logs/market-kit.log</code>(정산 줄 포함), 바꾼 코드, <code class="inline">REPORT.md</code>.</p>
-        <p><strong>REPORT.md</strong>: (1) Round 3에서 내 가게와 buyer에 일어난 일. 정산 수와 거부 사유를 인용한다. (2) 예산이 가려진 뒤 바꾼 호가 전략과 결과. (3) 7주차 사건 중 Round 3이 막지 못한 것 하나와 그 이유.</p>
+        <p><strong>REPORT.md</strong>: (1) 부품별 설계. 어떤 모델을 어디에 썼는지, 컨텍스트를 어떻게 관리했는지(meta-harness, 메모리 등), 어떤 툴을 어떻게 만들었는지. (2) 구조도 한 장과 키트 기본형과 다른 점. (3) Round 3 결과. 정산 수, 리더보드 순위, 거부 사유를 로그에서 인용한다.</p>
         <p><strong>형식</strong>: 6주차, 7주차와 같다. squash 금지, 실행 로그는 <code class="inline">logs/</code>에 커밋, API 키와 개인키는 커밋 금지.</p>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ============ MIDTERM ============ -->
-<section>
-  <div class="col">
-    <div class="secmark"><span class="no">MIDTERM</span><h2>중간 평가: 재현 실험 보고서</h2></div>
-    <p>3~7주차 과제 중 하나를 골라 학술 보고서로 확장한다. 이 개인 보고서가 중간 평가 전체이며 성적의 30%다. 중간시험은 없다. 보고서 클리닉은 다음 주에 연다.</p>
-    <!-- TODO-confirm (instructor): report clinic week and the midterm due date. -->
-
-    <div class="tbl-wrap">
-      <table>
-        <tr><th>고를 수 있는 과제</th><th>주제</th></tr>
-        <tr><td class="stage">W03</td><td>Contract Net</td></tr>
-        <tr><td class="stage">W04</td><td>화행과 FIPA-ACL</td></tr>
-        <tr><td class="stage">W05</td><td>MCP</td></tr>
-        <tr><td class="stage">W06</td><td>A2A</td></tr>
-        <tr><td class="stage">W07</td><td>에이전트 시장: 평판과 검증</td></tr>
-      </table>
-    </div>
-
-    <h3><span class="tag">FORMAT</span>보고서 형식</h3>
-    <div class="recorder">
-      <div><span class="k">Abstract</span><span class="v">재현한 프로토콜, 질문, 결론을 한 문단으로. 이 문단만 읽어도 결론을 알 수 있어야 한다.</span></div>
-      <div><span class="k">Background</span><span class="v">원 논문이나 스펙이 무엇을 주장했고, 왜 당시에는 이론으로 남았는가. 읽기 목록 범위 안에서 인용한다.</span></div>
-      <div><span class="k">Method</span><span class="v">독립변수, 통제, 측정 지표. 모델, 하네스, 프롬프트, 에이전트 구성. 남이 같은 조건을 다시 만들 수 있을 만큼 구체적으로.</span></div>
-      <div><span class="k">Results</span><span class="v">측정값을 표와 그림으로. 실패 모드도 넣고, 어디서 무너졌는지가 원 논문의 예측과 어떻게 갈렸는지 적는다.</span></div>
-      <div><span class="k">Discussion</span><span class="v">LLM이 해결한 것과 여전히 남긴 것을 나눈다.</span></div>
-      <div><span class="k">Reproduction</span><span class="v">코드, 설정 파일, 프롬프트, 시드와 모델 버전, 실행 명령 한 줄.</span></div>
-    </div>
-
-    <h3><span class="tag">RUBRIC</span>채점 기준</h3>
-    <div class="tbl-wrap">
-      <table>
-        <tr><th>항목</th><th>배점</th><th>보는 것</th></tr>
-        <tr><td class="stage">재현 가능성</td><td>50%</td><td>재현 패키지만으로 다른 사람이 같은 실험을 다시 돌릴 수 있는가. 코드, 설정, 프롬프트, 모델 버전 공개와 실제 재현 성공 여부</td></tr>
-        <tr><td class="stage">방법</td><td>20%</td><td>독립변수와 통제가 분리됐는가, 지표가 질문에 답하는가, 원 논문 설정과의 대응이 드러나는가</td></tr>
-        <tr><td class="stage">논의</td><td>20%</td><td>LLM이 해결한 것과 남긴 것을 구분했는가, 실패를 해석했는가</td></tr>
-        <tr><td class="stage">서술과 형식</td><td>10%</td><td>각 섹션이 제 역할을 하는가, 표와 그림이 주장을 돕는가, 인용이 읽기 목록 안에 있는가</td></tr>
-      </table>
-    </div>
-
-    <h3><span class="tag">RULE</span>고르는 규칙</h3>
-    <p>과제는 정확히 하나를 고른다. 고른 실험은 원래 제출물보다 확장돼야 한다. 측정 지표를 하나 더하거나, 조건을 하나 더 통제하거나, 실패 모드를 더 파고든다. 기존 제출물의 형식만 바꿔 내면 감점한다. 재현 패키지는 다른 사람의 컴퓨터에서 실행 명령 한 줄로 돌아가야 한다.</p>
   </div>
 </section>
 
