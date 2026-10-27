@@ -691,7 +691,7 @@ POST /checkout_sessions/{id}/cancel</pre></div>
 
     <ol class="pre">
       <li><b class="lead">값 다시 정하기 (필수).</b> 예산이 ledger에서 사라진 뒤 내 가게의 첫 호가와 평균 거래가가 어떻게 바뀌었는지 로그와 dashboard로 보인다.</li>
-      <li><b class="lead">acp.json으로 만드는 buyer (선택).</b> 키트의 고정 checkout 코드 대신, buyer가 가게의 <code class="inline">acp.json</code>을 읽어 툴을 만들고 그 툴로 checkout을 끝낸다.</li>
+      <li><b class="lead">acp.json으로 만드는 buyer (선택).</b> 키트의 고정 checkout 코드 대신, buyer가 가게의 <code class="inline">acp.json</code>을 읽어 툴을 만들고 그 툴로 checkout을 끝낸다. 키트도 고쳐도 된다. 키트의 <code class="inline">acp.json</code>은 입력을 짧은 설명 문자열로만 적으니, <code class="inline">scripts/market_kit.py</code>의 <code class="inline">AcpShop.card</code>에 JSON Schema를 넣어 툴 만들기 쉽게 바꿔도 된다. 정산은 그대로 시장의 <code class="inline">/api/settle</code>을 통과해야 한다.</li>
     </ol>
 
     <div class="hw">

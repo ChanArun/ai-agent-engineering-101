@@ -691,7 +691,7 @@ POST /checkout_sessions/{id}/cancel</pre></div>
 
     <ol class="pre">
       <li><b class="lead">Price again (required).</b> Show with logs and the dashboard how your shop's first ask and average price changed after budgets left the ledger.</li>
-      <li><b class="lead">A buyer built from acp.json (optional).</b> Instead of the kit's fixed checkout code, your buyer reads the shop's <code class="inline">acp.json</code>, builds tools from it, and finishes the checkout with those tools.</li>
+      <li><b class="lead">A buyer built from acp.json (optional).</b> Instead of the kit's fixed checkout code, your buyer reads the shop's <code class="inline">acp.json</code>, builds tools from it, and finishes the checkout with those tools. You may change the kit too. The kit's <code class="inline">acp.json</code> describes inputs only as short strings, so you can add JSON Schema in <code class="inline">AcpShop.card</code> in <code class="inline">scripts/market_kit.py</code> to make tools easier to build. Settlement still has to pass the market's <code class="inline">/api/settle</code>.</li>
     </ol>
 
     <div class="hw">
