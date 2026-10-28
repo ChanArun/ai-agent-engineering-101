@@ -276,6 +276,26 @@ footer .o{color:var(--muted)}
   </div>
 </header>
 
+<!-- ============ 중간 평가 공지 ============ -->
+<section>
+  <div class="col">
+    <div class="notice">
+      <div class="lbl">NOTICE: MIDTERM</div>
+      <!-- voice-check: prose -->
+      <p>Phase 1이 끝났다. 중간고사는 에이전트 만들기 과제로 대신한다. 예전 자료에 있던 재현 실험 보고서는 내지 않는다.</p>
+      <ul>
+        <li>평가 대상: 내 에이전트의 구조(컨텍스트 관리, 메모리 관리, 툴), 그 구조를 설명한 <code class="inline">REPORT.md</code>, Round 3 순위.</li>
+        <li>Round 3: 11월 2일(월) 시작, 11월 16일(월) 23:59 종료. 순위는 종료 시각의 리더보드로 정한다.</li>
+        <li>제출 마감: 11월 16일(월) 23:59, PR을 연 시각 기준.</li>
+        <li>Round 3에는 상품 공급, 식품 품질, 게시판이 더해진다. 세부 규칙은 시작 전에 이 페이지와 시장의 <code class="inline">/agent.md</code>에 올린다.</li>
+        <li>성적 비중 30%. 중간시험은 없다.</li>
+      </ul>
+      <p>평가 기준과 제출물은 아래 HW에 있다.</p>
+      <!-- voice-check: off -->
+    </div>
+  </div>
+</section>
+
 <!-- ============ 구성 ============ -->
 <section>
   <div class="col">
@@ -677,10 +697,10 @@ POST /checkout_sessions/{id}/cancel</pre></div>
 <section>
   <div class="col">
     <div class="secmark"><span class="no">HW</span><h2>중간 평가: Round 3 시장의 내 에이전트</h2></div>
-    <!-- voice-check: start -->
+    <!-- voice-check: prose -->
     <p>이 과제가 중간 평가를 대신한다. 성적의 30%이고 중간시험은 없다. 1주차에서 정의한 대로 에이전트는 모델, 컨텍스트, 툴로 이뤄진다. 세 부품을 직접 설계해 가게와 buyer를 Round 3 시장에 올리고 정산된 거래를 쌓는다. 해답 코드는 없다.</p>
-    <!-- voice-check: end -->
-    <!-- TODO-confirm (instructor): rubric weights, N = 20 settled deals, the Round 3 start announcement date and how ranks map to points. -->
+    <!-- voice-check: off -->
+    <!-- TODO-confirm (instructor): rubric weights, N = 20 settled deals and how ranks map to points. -->
 
     <h3><span class="tag">RUBRIC</span>평가 기준</h3>
     <div class="tbl-wrap">
@@ -710,7 +730,7 @@ POST /checkout_sessions/{id}/cancel</pre></div>
     <div class="hw">
       <div class="head">ASSIGNMENT: WEEK 08 (MIDTERM)</div>
       <div class="body">
-        <div class="due">DUE: 다음 주 수업 시작 전 (PR을 연 시각 기준)</div>
+        <div class="due">DUE: 11월 16일(월) 23:59 (PR을 연 시각 기준)</div>
         <p><strong>제출물</strong>: 배포한 컴퓨터의 <code class="inline">logs/market-kit.log</code>(정산 줄 포함), 바꾼 코드, <code class="inline">REPORT.md</code>.</p>
         <p><strong>REPORT.md</strong>: (1) 부품별 설계. 어떤 모델을 어디에 썼는지, 컨텍스트를 어떻게 관리했는지(meta-harness, 메모리 등), 어떤 툴을 어떻게 만들었는지. (2) 구조도 한 장과 키트 기본형과 다른 점. (3) Round 3 결과. 정산 수, 리더보드 순위, 거부 사유를 로그에서 인용한다.</p>
         <p><strong>형식</strong>: 6주차, 7주차와 같다. squash 금지, 실행 로그는 <code class="inline">logs/</code>에 커밋, API 키와 개인키는 커밋 금지.</p>

@@ -276,6 +276,24 @@ footer .o{color:var(--muted)}
   </div>
 </header>
 
+<!-- ============ midterm notice ============ -->
+<section>
+  <div class="col">
+    <div class="notice">
+      <div class="lbl">NOTICE: MIDTERM</div>
+      <p>Phase 1 is over. The midterm is replaced by the agent-building assignment. The reproduction report from the earlier materials is not required.</p>
+      <ul>
+        <li>What is graded: your agent's structure (context management, memory management, tools), the <code class="inline">REPORT.md</code> that explains it, and your Round 3 rank.</li>
+        <li>Round 3: starts Monday, November 2 and ends Monday, November 16 at 23:59. Ranks are taken from the leaderboard at the end.</li>
+        <li>Due: Monday, November 16 at 23:59, by the time the PR is opened.</li>
+        <li>Round 3 adds product supply, food quality and a message board. The detailed rules go up on this page and on the market's <code class="inline">/agent.md</code> before it starts.</li>
+        <li>30% of the grade. There is no midterm exam.</li>
+      </ul>
+      <p>Grading and deliverables are in the HW section below.</p>
+    </div>
+  </div>
+</section>
+
 <!-- ============ outline ============ -->
 <section>
   <div class="col">
@@ -678,7 +696,7 @@ POST /checkout_sessions/{id}/cancel</pre></div>
   <div class="col">
     <div class="secmark"><span class="no">HW</span><h2>Midterm: your agent in the Round 3 market</h2></div>
     <p>This assignment replaces the midterm. It is 30% of the grade and there is no midterm exam. As defined in week 1, an agent is a model, context and tools. Design all three yourself, put your shop and buyer in the Round 3 market, and build up settled deals. There is no solution code.</p>
-    <!-- TODO-confirm (instructor): rubric weights, N = 20 settled deals, the Round 3 start announcement date and how ranks map to points. -->
+    <!-- TODO-confirm (instructor): rubric weights, N = 20 settled deals and how ranks map to points. -->
 
     <h3><span class="tag">RUBRIC</span>Grading</h3>
     <div class="tbl-wrap">
@@ -708,7 +726,7 @@ POST /checkout_sessions/{id}/cancel</pre></div>
     <div class="hw">
       <div class="head">ASSIGNMENT: WEEK 08 (MIDTERM)</div>
       <div class="body">
-        <div class="due">DUE: before next week's class (by the time the PR is opened)</div>
+        <div class="due">DUE: Monday, November 16 at 23:59 (by the time the PR is opened)</div>
         <p><strong>Deliverables</strong>: <code class="inline">logs/market-kit.log</code> from the computer you deployed on (with settlement lines), the code you changed, and <code class="inline">REPORT.md</code>.</p>
         <p><strong>REPORT.md</strong>: (1) The design of each component: which model you used where, how you manage context (meta-harness, memory and so on), and which tools you built and how. (2) One structure diagram and how it differs from the kit's default. (3) Round 3 results: settlement count, leaderboard rank and refusal reasons, quoted from the log.</p>
         <p><strong>Format</strong>: same as weeks 6 and 7. No squashing, commit run logs under <code class="inline">logs/</code>, never commit API keys or private keys.</p>
