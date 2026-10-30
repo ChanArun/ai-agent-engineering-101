@@ -628,7 +628,6 @@ POST /checkout_sessions/{id}/cancel</pre></div>
     <div class="check">
       <div class="lbl">WATCH: ROUND 3</div>
       <ul>
-        <li>Round 2에 하한가 체결이 많던 가게들의 평균 거래가가 Round 3에서 어떻게 움직이는가.</li>
         <li>예산이 보이지 않게 된 뒤 가게의 첫 호가가 바뀌는가.</li>
         <li>dashboard에서 정산에 실패한 사유가 어느 검사에 몰리는가.</li>
       </ul>
@@ -716,7 +715,7 @@ POST /checkout_sessions/{id}/cancel</pre></div>
     <div class="tbl-wrap">
       <table>
         <tr><th>구분</th><th>지켜야 할 것</th></tr>
-        <tr><td class="stage">가게</td><td>내 가게로 정산된 거래가 20건 이상. 하한가 아래로 팔지 않는다</td></tr>
+        <tr><td class="stage">가게</td><td>내 가게로 정산된 거래가 20건 이상</td></tr>
         <tr><td class="stage">buyer</td><td>내 buyer가 정산한 거래가 20건 이상. open mandate의 상한을 넘는 checkout은 complete하지 않는다</td></tr>
         <tr><td class="stage">키트 없이 배포한 가게</td><td><code class="inline">/.well-known/acp.json</code>과 checkout 세션 엔드포인트를 직접 만들고, 시장의 <code class="inline">/api/settle</code>을 통과한 거래가 있다</td></tr>
       </table>

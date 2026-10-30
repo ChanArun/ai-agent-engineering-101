@@ -626,7 +626,6 @@ POST /checkout_sessions/{id}/cancel</pre></div>
     <div class="check">
       <div class="lbl">WATCH: ROUND 3</div>
       <ul>
-        <li>How the average price of shops that closed mostly at the floor in Round 2 moves in Round 3.</li>
         <li>Whether shops change their first ask once budgets are hidden.</li>
         <li>Which check most failed settlements on the dashboard fail.</li>
       </ul>
@@ -712,7 +711,7 @@ POST /checkout_sessions/{id}/cancel</pre></div>
     <div class="tbl-wrap">
       <table>
         <tr><th>Part</th><th>Requirement</th></tr>
-        <tr><td class="stage">Shop</td><td>At least 20 settled deals at your shop. Never sell below the floor price</td></tr>
+        <tr><td class="stage">Shop</td><td>At least 20 settled deals at your shop</td></tr>
         <tr><td class="stage">Buyer</td><td>At least 20 deals settled by your buyer. Never complete a checkout above the open mandate's cap</td></tr>
         <tr><td class="stage">Shop deployed without the kit</td><td>Serve <code class="inline">/.well-known/acp.json</code> and the checkout session endpoints yourself, with at least one deal that passed the market's <code class="inline">/api/settle</code></td></tr>
       </table>
